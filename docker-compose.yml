@@ -1,0 +1,67 @@
+version: "3.6"
+
+###
+# Build with
+# NATHAN_BUILD_VERSION="0.1.1" docker-compose build --force-rm --pull
+
+networks:
+    home-net:
+        name: home-net
+        driver: bridge
+
+services:
+    assistant:
+        restart: always
+        image: "nathanhome/assistant:${NATHAN_BUILD_VERSION}"
+        build:
+            context: ./docker-hass-io
+            args:
+                build_version: "${NATHAN_BUILD_VERSION}"
+        ports:
+            - 443:4143
+        environment:
+            TZ: "Europe/Berlin"
+            MQTTS_USER: /var/run/mqtts_user 
+            MQTTS_PASSWORD: /var/run/mqtts_password
+            HOMEASSI_KEY: /var/run/homeassi_key
+            # - PUID=1000
+            # - PGID=1000
+            #- UMASK=007
+            #- PACKAGES=iputils
+        volumes:
+            - "/home/homedock/.nathan/homeassistant:/config"
+            - "/etc/localtime:/etc/localtime:ro"
+            # - "/PATH_TO_YOUR_CONFIG/docker/run:/etc/services.d/home-assistant/run"
+        networks:
+            - home-net
+        links:
+            - "mosquitto:mqtts.home"
+
+    mosquitto:
+        restart: always
+        image: "nathanhome/mosquitto:${NATHAN_BUILD_VERSION}"
+        build:
+            context: ./docker-mosquitto
+            args:
+                build_version: "${NATHAN_BUILD_VERSION}"
+        ports:
+            - "1883:1883"
+            - "9001:9001"
+        volumes:
+            - /home/homedock/.nathan/mosquitto:/mosquitto/data
+            - /home/homedock/.nathan/mosquitto/logs:/mosquitto/logs
+        networks:
+            - home-net
+        #links:
+        #    - "home-assistant:assistant.home"
+    
+
+# TODO: Password still in clear text on docker host
+secrets:
+    mqtts_user:
+        file: /home/homedock/.nathan/homeassistant/.sec/mqtts_username.txt
+    mqtts_password:
+        file: /home/homedock/.nathan/homeassistant/.sec/mqtts_password.txt
+    homeassi_key:
+        file: /home/homedock/.nathan/homeassistant/.sec/nathan-pi-home.rederlechner.home.key
+

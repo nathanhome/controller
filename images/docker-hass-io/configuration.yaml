@@ -1,0 +1,32 @@
+homeassistant:
+  name: "NATHAN@rederlechner"
+  latitude: 0 
+  longitude: 0
+  unit_system: metric
+  time_zone: Europe/Berlin
+
+http:
+  ssl_certificate: /config/tls/nathan-pi-home-chain.pem
+  ssl_key: /config/tls/nathan-pi-home.key
+  server_port: 4443
+
+logger:
+  default: info
+  # logs:
+  #   homeassistant.components.yamaha: critical
+  #   custom_components.my_integration: critical
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+    # Text to speech
+    tts:
+      - platform: google_translate
+    
+    group: !include groups.yaml
+    automation: !include automations.yaml
+    script: !include scripts.yaml
+    scene: !include scenes.yaml
+
+  
+  
