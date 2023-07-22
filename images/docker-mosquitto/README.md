@@ -29,7 +29,7 @@ Take care that you do not rebuild the passwd file afterwards and only use:
 
 #### Test MQTT setup from commandline with Docker
 ```
-docker exec -it <running container id> /usr/bin/mosquitto_sub -t test -h localhost < -u user> < -P password>
+docker exec -it <running container id> /usr/bin/mosquitto_sub -t test -h localhost < -u user> < -P password> -m "Message"  --cafile
 ```
 
 ```

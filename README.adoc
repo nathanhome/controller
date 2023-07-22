@@ -1,0 +1,31 @@
+= NATHAN home automation
+
+Distributed, secure container installation of MQTT broker, HomeAssistant, ZWave
+and solar control (sbfspot).
+
+== Mosquitto setup
+
+.Non-root user
+To run Eclipse Mosquitto MQTT broker as non-root, you need to create a system user
+`mosquitto` _with UID `1883`_ on host level. The corresponding user in container is
+created automatically.
+
+.File system structure
+----
+/home/mosquitto
+  + .nathan
+    + config
+    | - mosquitto.conf                # external configuration
+    | - nathan-mqtts.home-chain.pem   # certificate trust chain
+    | - nathan-mqtts.home.pem         # mqtts server certificate
+    + data
+    + log
+    | - mosquitto.log                 # mosquitto-written log
+
+/home/<docker-compose-user>           # credentials
+  + .nathan/mosquitto                 
+    - mosquitto.passwd                # user/password of client broker users
+    - nathan-mqtts.home.pem           # private server key
+----
+
+== Home Assistant setup
