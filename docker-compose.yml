@@ -10,41 +10,36 @@ networks:
     driver: bridge
 
 services:
-    #assistant:
+    assistant:
     #    restart: always
-    #    image: "nathanhome/assistant:${NATHAN_BUILD_VERSION}"
-    #    build:
-    #        context: ./images/docker-hass-io
-    #        args:
-    #            build_version: "${NATHAN_BUILD_VERSION}"
-    #    ports:
-    #        - 443:4143
-    #    environment:
-    #        TZ: "Europe/Berlin"
-    #        MQTTS_USER: /var/run/mqtts_user 
-    #        MQTTS_PASSWORD: /var/run/mqtts_password
-    #        HOMEASSI_KEY: /var/run/homeassi_key
-    #        # - PUID=1000
-    #        # - PGID=1000
-    #        #- UMASK=007
-    #        #- PACKAGES=iputils
-    #    volumes:
-    #        - "/home/homedock/.nathan/homeassistant:/config"
-    #        - "/etc/localtime:/etc/localtime:ro"
-    #        # - "/PATH_TO_YOUR_CONFIG/docker/run:/etc/services.d/home-assistant/run"
-    #    networks:
-    #        - home-net
-    #    #links:
-        #    - "mosquitto:mqtts.home"
+      image: "nathanhome/assistant:${NATHAN_HASS_VERSION}"
+      build:
+        context: ./images/docker-hass-io
+      ports:
+        - 443:4443
+      environment:
+        - TZ="Europe/Berlin"
+        - PUID=1884
+        - PGID=1884
+        - UMASK=007
+        - PACKAGES=iputils
+      volumes:
+        - "/home/assistant/.nathan/config:/config"
+        - "/run/secrets/hass_secrets:/config/secrets.yaml"
+        - "/etc/localtime:/etc/localtime:ro"
+      networks:
+        - home-net
+      security_opt:  
+        - no-new-privileges
 
-    mosquitto:
+    mqbroker:
       #restart: always
       image: "nathanhome/mosquitto:${NATHAN_MQTT_VERSION}"
       build:
         context: ./images/docker-mosquitto
       ports:
-        - "1883:1883"
-        - "9001:9001"
+        - "8883:8883"
+        # don't expose mqtt access: - "1883:1883"
       volumes:
         - /home/mosquitto/.nathan/data:/mosquitto/data
         - /home/mosquitto/.nathan/log:/mosquitto/log
@@ -58,11 +53,11 @@ services:
 # TODO: Password still in clear text on docker host
 secrets:
     mqtts_key:
-      file: /home/digital/.nathan/mosquitto/nathan-mqtts.home.key
+      file: /home/digital/.nathan/mosquitto/nathan-mqtts.nathan.home.key
     mqtts_passwd:
       file: /home/digital/.nathan/mosquitto/mosquitto.passwd
     hass_key:
-      file: /home/digital/.nathan/homeassist/nathan-pi-home.home.key
-    hass_mqtts_pass:
-      file: /home/digital/.nathan/homeassist/mqtts_pass.txt
+      file: /home/digital/.nathan/homeassist/nathan-nathan.home.key
+    hass_secrets:
+      file: /home/digital/.nathan/homeassist/secrets.yaml
 

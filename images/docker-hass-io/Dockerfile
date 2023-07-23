@@ -1,16 +1,14 @@
-ARG build_version="latest"
+FROM homeassistant/home-assistant:2023.7
 
-FROM homeassistant/raspberrypi3-homeassistant:stable
-
-LABEL version="${build_version}" \
-      description="Secured configuration of homeassistant for NATHAN@home setup" \
+LABEL version="2023.7" \
+      description="Secure homeassistant setup for NATHAN@home" \
       maintainer="rbe-git@t-online.de"
 
 ###
 # Security and setup changes to standard image
 #
 
-EXPOSE 4143/tcp
+# re-wire secrets to docker-compose injected secrets, by soft link
+RUN ln -s /run/secrets/hass_secrets /config/secrets.yaml
 
-# TODO: switch homeassitant to non-root venv
-# see for basic idea: https://github.com/tribut/homeassistant-docker-venv/blob/master/run
+EXPOSE 4443/tcp

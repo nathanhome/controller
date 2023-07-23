@@ -1,13 +1,13 @@
 homeassistant:
-  name: "NATHAN@rederlechner"
-  latitude: 0 
-  longitude: 0
+  name: !secret sitename
+  latitude: !secret latitude
+  longitude: !secret longitude
   unit_system: metric
-  time_zone: Europe/Berlin
+  time_zone: !env_var TZ
 
 http:
-  ssl_certificate: /config/tls/nathan-pi-home-chain.pem
-  ssl_key: /config/tls/nathan-pi-home.key
+  ssl_certificate: /config/nathan-nathan.home-chain.pem
+  ssl_key: /run/secrets/hass_key
   server_port: 4443
 
 logger:
@@ -18,7 +18,6 @@ logger:
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
     # Text to speech
     tts:
       - platform: google_translate
