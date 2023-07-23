@@ -1,37 +1,40 @@
 ## Mosquitto
 
-#### Creating users with password
-'''
-'''
-
 #### Prerequisite: generate passwd file using eclipse-mosquitto plain base container
-Generate user/password
+Create initial passwd file
 ```
-> docker run -p 1883:1883 -p 9001:9001 -v $HOME/.nathan/mosquitto/data:/mosquitto/data -v $HOME/.nathan/mosquitto/logs:/mosquitto/logs eclipse-mosquitto:1.6
-> docker exec -it <running container id> /usr/bin/mosquitto_passwd -c /mosquitto/data/mosquitto.passwd <myfirstuser>
-```
-Take care that you do not rebuild the passwd file afterwards and only use:
-```
-> docker exec -it <running container id> /usr/bin/mosquitto_passwd /mosquitto/data/mosquitto.passwd <myseconduser>
+> docker run -p 1983:1883 -p 9901:9001 -v $HOME/.nathan/mosquitto/mosquitto.passwd:/mosquitto/config/mosquitto.passwd eclipse-mosquitto:2.0-openssl /usr/bin/mosquitto_passwd -b /mosquitto/config/mosquitto.passwd -c <first user> "passwd"
 ```
 
+Update user passwd
+```
+> docker run -p 1983:1883 -p 9901:9001 -v $HOME/.nathan/mosquitto/mosquitto.passwd:/mosquitto/config/mosquitto.passwd eclipse-mosquitto:2.0-openssl /usr/bin/mosquitto_passwd -b /mosquitto/config/mosquitto.passwd <mqtts_user, e.g. homeassistant> "passwd"
+```
+
+Delete user:
+```
+docker run -p 1983:1883 -p 9901:9001 -v $HOME/.nathan/mosquitto/mosquitto.passwd:/mosquitto/config/mosquitto.passwd eclipse-mosquitto:2.0-openssl /usr/bin/mosquitto_passwd -D /mosquitto/config/mosquitto.passwd <user>
+```
 
 #### Building Mosquitto image
 ```
-> docker build --pull --rm -t nathanhome/mosquitto:0.1.0 .
+NATHAN_MQTT_VERSION=2.0-1 NATHAN_HASS_VERSION=2023.7 NATHAN_VERSION=23.0.1 docker-compose build mqtts
 ```
 
-#### Running Mosquitto images
+#### Running Mosquitto image (only)
 ```
-> docker run -d -p 1883:1883 -p 9001:9001 -v $HOME/.nathan/mosquitto:/mosquitto/data -v $HOME/.nathan/logs:/mosquitto/log  --network home-net --network-alias mqtts.home nathanhome/mosquitto:0.1.0
+NATHAN_MQTT_VERSION=2.0-1 NATHAN_HASS_VERSION=2023.7 NATHAN_VERSION=23.0.1 docker-compose up -d mqbroker
 ```
 
 
 #### Test MQTT setup from commandline with Docker
+
+Listen to a test queue:
 ```
-docker exec -it <running container id> /usr/bin/mosquitto_sub -t test -h localhost < -u user> < -P password> -m "Message"  --cafile
+docker exec -it controller_mqbroker_1 /usr/bin/mosquitto_sub -t test -h mqbroker --cafile /mosquitto/config/nathan-mqtts.nathan.home-chain.pem -u homeassist -P "<pass>"
 ```
 
+Publish to test queue:
 ```
-docker exec -it 8980b904b922 /usr/bin/mosquitto_pub -t test -h mosquitto --cafile /mosquitto/data/nathan-mqtts.rederlechner.home-chain.pem -u homeassi -P "-2R3d-4_H0me#Ctrl_19761" -m "Hello"
+docker exec -it controller_mqbroker_1 /usr/bin/mosquitto_pub -t test -h mqbroker --cafile /mosquitto/config/nathan-mqtts.nathan.home-chain.pem -u homeassist -P "<pass>" -m "Hello"
 ```
