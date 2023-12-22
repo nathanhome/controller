@@ -15,3 +15,7 @@ sudo -u mosquitto docker rm <hash>
 # Homesistant user
 adduser --system --uid 1884 --group --disabled-login --shell /sbin/nologin assistant
 usermod --comment "NATHAN home assistant user" assistant
+
+# Homesistant user
+adduser --system --uid 1885 --group --disabled-login --shell /sbin/nologin zwaver
+usermod --comment "NATHAN zwave2mqtt user" zwaver

@@ -47,14 +47,14 @@ services:
       networks:
         - home-net
       secrets:
-        - mqtts_key
-        - mqtts_passwd
+        - mqbroker_key
+        - mqbroker_passwd
 
 # TODO: Password still in clear text on docker host
 secrets:
-    mqtts_key:
-      file: /home/digital/.nathan/mosquitto/nathan-mqtts.nathan.home.key
-    mqtts_passwd:
+    mqbroker_key:
+      file: /home/digital/.nathan/mosquitto/nathan-mqbroker.nathan.home.key
+    mqbroker_passwd:
       file: /home/digital/.nathan/mosquitto/mosquitto.passwd
     hass_key:
       file: /home/digital/.nathan/homeassist/nathan-nathan.home.key
