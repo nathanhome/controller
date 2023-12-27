@@ -11,44 +11,99 @@ networks:
 
 services:
     assistant:
-    #    restart: always
+      restart: unless-stopped
       image: "nathanhome/assistant:${NATHAN_HASS_VERSION}"
       build:
         context: ./images/docker-hass-io
+      group-add:
+        - homeauto
       ports:
         - 443:4443
       environment:
-        - TZ="Europe/Berlin"
+        - TZ=Europe/Berlin
         - PUID=1884
         - PGID=1884
         - UMASK=007
         - PACKAGES=iputils
       volumes:
-        - "/home/assistant/.nathan/config:/config"
-        - "/run/secrets/hass_secrets:/config/secrets.yaml"
+        # this is a mounting workaround as homeassistant expects secrets file under
+        # /config/secrets.yaml, which we deviated in docker image to docker-compose
+        # secrets file by soft link
+        - "/home/assistant/.nathan/config/configuration.yaml:/config/configuration.yaml"
+        - "/home/assistant/.nathan/config/site:/config/site"
         - "/etc/localtime:/etc/localtime:ro"
       networks:
         - home-net
       security_opt:  
         - no-new-privileges
+      secrets:
+        - hass_key
+        - hass_secrets
 
     mqbroker:
-      #restart: always
+      restart: unless-stopped
       image: "nathanhome/mosquitto:${NATHAN_MQTT_VERSION}"
       build:
         context: ./images/docker-mosquitto
+      group-add:
+        - homeauto
       ports:
         - "8883:8883"
         # don't expose mqtt access: - "1883:1883"
       volumes:
         - /home/mosquitto/.nathan/data:/mosquitto/data
-        - /home/mosquitto/.nathan/log:/mosquitto/log
+        - /home/digital/.nathan/log:/mosquitto/log
         - /home/mosquitto/.nathan/config:/mosquitto/config
       networks:
         - home-net
       secrets:
         - mqbroker_key
         - mqbroker_passwd
+      depends_on:
+        - mqbroker
+
+    zwgate:
+      restart: unless-stopped
+      image: "nathanhome/zwavejs:${NATHAN_ZWAVEJS_VERSION}"
+      build:
+        context: ./images/docker-zwavejs
+      user: 1885:1885
+      group-add:
+        - dialout
+        - homeauto
+      tty: true
+      stop_signal: SIGINT
+      devices:
+          # Do not use /dev/ttyUSBX serial devices, as those mappings can change over time.
+          # Instead, use the /dev/serial/by-id/X serial device for your Z-Wave stick.
+          - '/dev/ttyACM0:/dev/zwave'
+      volumes:
+          - zwave-config:/usr/src/app/store
+      # Or by using local folder
+      # - ./store:/usr/src/app/store
+      ports:
+          - '8091:8091' # port for web interface
+          - '3000:3000' # port for Z-Wave JS websocket server
+      volumes:
+        - /home/zwgate/.nathan/data:/usr/src/app/store
+        - /home/zwgate/.nathan/config:/usr/src/app/config
+        - /home/digital/.nathan/logs:/usr/src/app/logs
+        # - /mnt/nathan/zwgate/backup:/usr/src/app/backup
+      environment:
+        - TZ=Europe/Berlin
+        - ZWAVEJS_EXTERNAL_CONFIG=/usr/src/app/store/.config-db
+        - ZWAVEJS_LOGS_DIR=/usr/src/app/logs
+        # - BACKUPS_DIR=/usr/src/app/backup
+        - MQTT_NAME=mqbroker
+        - HTTPS=1
+        - SSL_CERTIFICATE=/usr/src/app/config/nathan-zwgate.nathan.home.pem
+        - SSL_KEY=/run/secret/zwgate_key
+        - UID_DISCOVERY_PREFIX=zwgate_
+      networks:
+        - home-net
+      secrets:
+        - zwgate_secrets
+        - zwgate_key
 
 # TODO: Password still in clear text on docker host
 secrets:
@@ -57,7 +112,11 @@ secrets:
     mqbroker_passwd:
       file: /home/digital/.nathan/mosquitto/mosquitto.passwd
     hass_key:
-      file: /home/digital/.nathan/homeassist/nathan-nathan.home.key
+      file: /home/digital/.nathan/homeassistant/nathan-nathan.home.key
     hass_secrets:
-      file: /home/digital/.nathan/homeassist/secrets.yaml
+      file: /home/digital/.nathan/homeassistant/secrets.yaml
+    zwgate_secrets:
+      file: /home/digital/.nathan/zwgate/secrets.txt
+    zwgate_key:
+      file: /home/digital/.nathan/zwgate/nathan-zwgate.nathan.home.key
 
