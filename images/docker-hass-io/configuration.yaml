@@ -6,7 +6,7 @@ homeassistant:
   time_zone: !env_var TZ
 
 http:
-  ssl_certificate: /config/nathan-nathan.home-chain.pem
+  ssl_certificate: /config/site/nathan-nathan.home-chain.pem
   ssl_key: /run/secrets/hass_key
   server_port: 4443
 
@@ -22,10 +22,10 @@ default_config:
     tts:
       - platform: google_translate
     
-    group: !include groups.yaml
-    automation: !include automations.yaml
-    script: !include scripts.yaml
-    scene: !include scenes.yaml
+    group: !include site/groups.yaml
+    automation: !include site/automations.yaml
+    script: !include site/scripts.yaml
+    scene: !include site/scenes.yaml
 
   
   

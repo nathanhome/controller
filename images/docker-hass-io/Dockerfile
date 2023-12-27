@@ -1,6 +1,6 @@
-FROM homeassistant/home-assistant:2023.7
+FROM homeassistant/home-assistant:2023.12
 
-LABEL version="2023.7" \
+LABEL version="2023.12-1" \
       description="Secure homeassistant setup for NATHAN@home" \
       maintainer="rbe-git@t-online.de"
 
