@@ -1,0 +1,11 @@
+FROM zwavejs/zwave-js-ui:9.6
+
+LABEL version="9.6-1" \
+      maintainer="rbe-git@t-online.de" \
+      description="Zwavejs gateway configured for NATHAN home automation"
+
+###
+# Security and setup changes to standard image
+# To take secret information from dockr-compose secrets
+#
+ENTRYPOINT ['runwithsecrets.sh']

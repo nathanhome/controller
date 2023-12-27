@@ -1,0 +1,10 @@
+## Z-wavejs UI gateway
+
+### Configuration hints
+1. The docker container is modified so that the secrets are taken from docker compose
+secret file `/run/secrets/zwgate_secrets`, where each line is in the format "ENVVAR=VALUE"
+
+2. Zwave keys in secrets are in hex32 format and could be generated with
+-----
+openssl rand -hex 16| tr '[:lower:]' '[:upper:]'
+-----
