@@ -43,6 +43,31 @@ services:
         - hass_secrets
       depends_on:
         - mqbroker
+        - homedb
+
+
+    homedb:
+      restart: unless-stopped
+      # no modification for standdard db image
+      image: "mariadb:${NATHAN_MARIADB_VERSION}"
+      user: 1887:1887
+      group_add:
+        - ${NATHAN_GROUP}
+      ports:
+        - "3306:3306"
+      environment:
+        - MARIADB_ROOT_USER=homeroot
+        - MARIADB_ROOT_PASSWORD_FILE=/run/secrets/homedb_rootpass
+        - MARIADB_DATABASE=homedb
+        - MARIADB_USER=assistant
+        - MARIADB_PASSWORD_FILE=/run/secrets/homedb_hasspass
+      volumes:
+        - /home/homedb/.nathan/data:/var/lib/mysql
+      networks:
+        - home-net
+      secrets:
+        - homedb_rootpass
+        - homedb_hasspass
 
     mqbroker:
       restart: unless-stopped
@@ -137,4 +162,10 @@ secrets:
       file: /home/digital/.nathan/zwgate/nathan-nathan.home.pem
     zwgate_ca:
       file: /home/digital/.nathan/nathan.home-chain.pem
+    homedb_rootpass:
+      file: /home/digital/.nathan/homedb/maria.pwd
+    homedb_hasspass:
+      file: /home/digital/.nathan/homedb/hassdb.pwd
+
+
 

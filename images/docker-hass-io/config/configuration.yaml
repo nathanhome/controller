@@ -18,13 +18,15 @@ logger:
 mqtt:
   sensor: !include_dir_list site/mqtt
 
-
+recorder:
+  db_url: !secret db_url
+  
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:   
-    group: !include site/groups.yaml
-    automation: !include site/automations.yaml
-    script: !include site/scripts.yaml
-    scene: !include site/scenes.yaml
+  group: !include site/groups.yaml
+  automation: !include site/automations.yaml
+  script: !include site/scripts.yaml
+  scene: !include site/scenes.yaml
 
   
   
