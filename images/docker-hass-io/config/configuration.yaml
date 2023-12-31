@@ -6,22 +6,21 @@ homeassistant:
   time_zone: !env_var TZ
 
 http:
-  ssl_certificate: /config/site/nathan-nathan.home-chain.pem
+  ssl_certificate: /run/secrets/hass_cert
   ssl_key: /run/secrets/hass_key
   server_port: 4443
 
 logger:
   default: info
   # logs:
-  #   homeassistant.components.yamaha: critical
-  #   custom_components.my_integration: critical
+    # homeassistant.components.mqtt: debug
+
+mqtt:
+  sensor: !include_dir_list site/mqtt
+
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
-default_config:
-    # Text to speech
-    tts:
-      - platform: google_translate
-    
+default_config:   
     group: !include site/groups.yaml
     automation: !include site/automations.yaml
     script: !include site/scripts.yaml

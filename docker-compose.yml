@@ -56,8 +56,8 @@ services:
         # don't expose mqtt access: - "1883:1883"
       volumes:
         - /home/mosquitto/.nathan/data:/mosquitto/data
-        - /home/digital/.nathan/logs:/mosquitto/log
         - /home/mosquitto/.nathan/config:/mosquitto/config
+        - /var/log/mqbroker:/mosquitto/log
       networks:
         - home-net
       secrets:
@@ -67,7 +67,7 @@ services:
         - mqbroker_passwd
 
     zwgate:
-      restart: unless-stopped
+      # restart: unless-stopped
       image: "nathanhome/zwavejs:${NATHAN_ZWAVEJS_VERSION}"
       build:
         context: ./images/docker-zwavejs
@@ -91,7 +91,7 @@ services:
       volumes:
         - /home/zwgate/.nathan/data:/usr/src/app/store
         - /home/zwgate/.nathan/config:/usr/src/app/config
-        - /home/digital/.nathan/logs:/usr/src/app/logs
+        - /var/log/zwgate:/usr/src/app/logs
         # - /mnt/nathan/zwgate/backup:/usr/src/app/backup
       environment:
         - TZ=Europe/Berlin
@@ -100,8 +100,8 @@ services:
         # - BACKUPS_DIR=/usr/src/app/backup
         - MQTT_NAME=mqbroker
         - HTTPS=1
-        - SSL_CERTIFICATE=/usr/src/app/config/nathan-zwgate.nathan.home.pem
-        - SSL_KEY=/run/secret/zwgate_key
+        - SSL_CERTIFICATE=/run/secrets/zwgate_cert
+        - SSL_KEY=/run/secrets/zwgate_key
         - UID_DISCOVERY_PREFIX=zwgate_
       networks:
         - home-net
@@ -132,9 +132,9 @@ secrets:
     zwgate_secrets:
       file: /home/digital/.nathan/zwgate/secrets.txt
     zwgate_key:
-      file: /home/digital/.nathan/zwgate/nathan-zwgate.nathan.home.key
+      file: /home/digital/.nathan/zwgate/nathan-nathan.home.key
     zwgate_cert:
-      file: /home/digital/.nathan/zwgate/nathan-zwgate.nathan.home.pem
+      file: /home/digital/.nathan/zwgate/nathan-nathan.home.pem
     zwgate_ca:
       file: /home/digital/.nathan/nathan.home-chain.pem
 
