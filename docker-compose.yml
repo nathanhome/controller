@@ -45,7 +45,6 @@ services:
         - mqbroker
         - homedb
 
-
     homedb:
       restart: unless-stopped
       # no modification for standdard db image
@@ -58,7 +57,7 @@ services:
       environment:
         - MARIADB_ROOT_USER=homeroot
         - MARIADB_ROOT_PASSWORD_FILE=/run/secrets/homedb_rootpass
-        - MARIADB_DATABASE=homedb
+        - MARIADB_DATABASE=hassdb
         - MARIADB_USER=assistant
         - MARIADB_PASSWORD_FILE=/run/secrets/homedb_hasspass
       volumes:
