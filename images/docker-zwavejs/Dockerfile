@@ -8,4 +8,7 @@ LABEL version="9.6-1" \
 # Security and setup changes to standard image
 # To take secret information from dockr-compose secrets
 #
-ENTRYPOINT ['runwithsecrets.sh']
+COPY ./runwithsecrets.sh /bin/runwithsecrets.sh
+RUN chmod +x /bin/runwithsecrets.sh
+ENTRYPOINT ["/bin/runwithsecrets.sh"]
+CMD ["node", "server/bin/www"]

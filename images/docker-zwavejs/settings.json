@@ -1,0 +1,87 @@
+{
+  "mqtt": {
+    "name": "zwave-js-ui",
+    "host": "mqtts://mqbroker",
+    "port": 8883,
+    "qos": 1,
+    "prefix": "zwave",
+    "reconnectPeriod": 3000,
+    "retain": true,
+    "clean": true,
+    "auth": true,
+    "username": "zwaver",
+    "password": "IgEGT5e73lJAi+c@V-;dvHdl",
+    "_ca": "#\n# NATHAN server CA\n# subject= /C=DE/ST=Saarland/L=Sankt Wendel/O=NATHAN home/OU=Rederlechner/CN=Server CA\n# alias= nathan-server-ca\n#\n-----BEGIN CERTIFICATE-----\nMIIChDCCAgugAwIBAgIJAPzwltnYwTAJMAoGCCqGSM49BAMCMHYxCzAJBgNVBAYT\nAkRFMREwDwYDVQQIDAhTYWFybGFuZDEVMBMGA1UEBwwMU2Fua3QgV2VuZGVsMRQw\nEgYDVQQKDAtOQVRIQU4gaG9tZTEVMBMGA1UECwwMUmVkZXJsZWNobmVyMRAwDgYD\nVQQDDAdSb290IENBMB4XDTIwMTEwODA5MjQ1OVoXDTI2MDEwNjA5MjQ1OVoweDEL\nMAkGA1UEBhMCREUxETAPBgNVBAgMCFNhYXJsYW5kMRUwEwYDVQQHDAxTYW5rdCBX\nZW5kZWwxFDASBgNVBAoMC05BVEhBTiBob21lMRUwEwYDVQQLDAxSZWRlcmxlY2hu\nZXIxEjAQBgNVBAMMCVNlcnZlciBDQTB2MBAGByqGSM49AgEGBSuBBAAiA2IABENC\n4PAOkKb7CcEE+y3WOWzu/9FYwqzwgip9+AxEA+0NiBc3BGPNZr0KTIImxmBFq3Wx\nH2R4jxmsE2uaiGWD1x8/ekRBQa+JrkTGRQEGv/oimKBMwe8sPFNiV52PQugsnaNj\nMGEwHQYDVR0OBBYEFEKgh7AqX2WJJpW96NX70wMF5LQdMB8GA1UdIwQYMBaAFB8G\nFEEAH2E7mUo14P1NVZA0Tc+4MA8GA1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQD\nAgEGMAoGCCqGSM49BAMCA2cAMGQCMHYS3gAPo5pzPcyNNbPmy1pYBPmfGIp/vEtv\neSPG33IIpYSSImZoqmpjRpfrq/YzkAIwJNK0vEscd+jHGXhsSHjvdstyrhmj71xK\nBEM1UrZeygT16JZZwZ0EAyGEG6MynxEO\n-----END CERTIFICATE-----\n#\n# NATHAN root CA\n# subject= /C=DE/ST=Saarland/L=Sankt Wendel/O=NATHAN home/OU=Rederlechner/CN=Root CA\n# alias= nathan-root-ca\n#\n-----BEGIN CERTIFICATE-----\nMIICgzCCAgmgAwIBAgIJAIaX17DIweh7MAoGCCqGSM49BAMCMHYxCzAJBgNVBAYT\nAkRFMREwDwYDVQQIDAhTYWFybGFuZDEVMBMGA1UEBwwMU2Fua3QgV2VuZGVsMRQw\nEgYDVQQKDAtOQVRIQU4gaG9tZTEVMBMGA1UECwwMUmVkZXJsZWNobmVyMRAwDgYD\nVQQDDAdSb290IENBMB4XDTIwMTEwODA5MjQ1MFoXDTI2MDIwNTA5MjQ1MFowdjEL\nMAkGA1UEBhMCREUxETAPBgNVBAgMCFNhYXJsYW5kMRUwEwYDVQQHDAxTYW5rdCBX\nZW5kZWwxFDASBgNVBAoMC05BVEhBTiBob21lMRUwEwYDVQQLDAxSZWRlcmxlY2hu\nZXIxEDAOBgNVBAMMB1Jvb3QgQ0EwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAATbLF0q\nuJ2cRWefYdi6YHtnG3AYxKzovy4h0DioVgEAOyFKl+8gMsMO3gGDVxVQ/05fqrlx\nnzTwKviz2d6+qwcKxqu9DIicOy8lZErJt/Lps9N+wZ0MccMcRv6Y1qajHAyjYzBh\nMB0GA1UdDgQWBBQfBhRBAB9hO5lKNeD9TVWQNE3PuDAfBgNVHSMEGDAWgBQfBhRB\nAB9hO5lKNeD9TVWQNE3PuDAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIB\nBjAKBggqhkjOPQQDAgNoADBlAjB1cqYFvm0dwM0FgIh1qNkjMmO4qzvOmw/CckO8\nwlzZjl4Ey8NR0bu+1zmVgz9xgX8CMQDUutshv8e9jFpGO1styQGxhEW/l7R6uU7/\nbPBf4zjvFJtjAyjhI9xnQ93Zq8S1wic=\n-----END CERTIFICATE-----\n",
+    "ca": "nathan.home-chain.pem",
+    "_cert": "",
+    "cert": "",
+    "_key": "",
+    "key": "",
+    "store": true,
+    "allowSelfsigned": true
+  },
+  "gateway": {
+    "type": 1,
+    "plugins": [],
+    "authEnabled": false,
+    "payloadType": 0,
+    "nodeNames": true,
+    "hassDiscovery": true,
+    "discoveryPrefix": "homeassistant",
+    "logEnabled": false,
+    "logLevel": "debug",
+    "logToFile": false,
+    "values": [],
+    "jobs": [],
+    "disableChangelog": false,
+    "notifyNewVersions": false,
+    "versions": {
+      "app": "9.6.2",
+      "driver": "12.4.1",
+      "server": "1.33.0"
+    },
+    "retainedDiscovery": true
+  },
+  "zwave": {
+    "port": "/dev/zwave",
+    "allowBootloaderOnly": false,
+    "commandsTimeout": 30,
+    "logLevel": "info",
+    "rf": {
+      "txPower": {}
+    },
+    "logEnabled": true,
+    "securityKeys": {
+      "S2_AccessControl": "E9993EF69AA71EF39B752DF38C361004",
+      "S0_Legacy": "BF58E8E79B30EE8522353D9452D5F83F",
+      "S2_Unauthenticated": "820942016A575370C329EA45CAE40812",
+      "S2_Authenticated": "5DD86EA847098718F76769F28030A2B2"
+    },
+    "deviceConfigPriorityDir": "/usr/src/app/store/config",
+    "logToFile": true,
+    "maxFiles": 7,
+    "serverEnabled": false,
+    "serverServiceDiscoveryDisabled": false,
+    "enableSoftReset": true,
+    "enableStatistics": false,
+    "serverPort": 3000,
+    "maxNodeEventsQueueSize": 100,
+    "higherReportsTimeout": false,
+    "disableControllerRecovery": false,
+    "disclaimerVersion": 1
+  },
+  "backup": {
+    "storeBackup": false,
+    "storeCron": "0 0 * * *",
+    "storeKeep": 7,
+    "nvmBackup": false,
+    "nvmBackupOnEvent": false,
+    "nvmCron": "0 0 * * *",
+    "nvmKeep": 7
+  },
+  "ui": {
+    "darkMode": false,
+    "navTabs": false,
+    "compactMode": false
+  }
+}
