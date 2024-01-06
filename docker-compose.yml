@@ -30,7 +30,11 @@ services:
         # /config/secrets.yaml, which we deviated in docker image to docker-compose
         # secrets file by soft link
         - "/home/assistant/.nathan/config/configuration.yaml:/config/configuration.yaml"
+        - "/home/assistant/.nathan/config/.cloud:/config/.cloud"
+        - "/home/assistant/.nathan/config/.storage:/config/.storage"
+        - "/home/assistant/.nathan/config/blueprints:/config/blueprints"
         - "/home/assistant/.nathan/config/site:/config/site"
+        - "/home/assistant/.nathan/config/tts:/config/tts"
         - "/etc/localtime:/etc/localtime:ro"
       networks:
         - home-net
@@ -77,6 +81,7 @@ services:
         - ${NATHAN_GROUP}
       ports:
         - "8883:8883"
+        - "1883:1883"
         # don't expose mqtt access: - "1883:1883"
       volumes:
         - /home/mosquitto/.nathan/data:/mosquitto/data
@@ -123,6 +128,8 @@ services:
         - ZWAVEJS_LOGS_DIR=/usr/src/app/logs
         # - BACKUPS_DIR=/usr/src/app/backup
         - MQTT_NAME=mqbroker
+        - MQTT_HOST=mqtts://mqbroker
+        - MQTT_PORT=88
         - HTTPS=1
         - SSL_CERTIFICATE=/run/secrets/zwgate_cert
         - SSL_KEY=/run/secrets/zwgate_key
@@ -132,35 +139,41 @@ services:
       secrets:
         - zwgate_key
         - zwgate_cert
-        - zwgate_ca
+        - zwgate_mqtt_ca
+        - zwgate_mqtt_key
+        - zwgate_mqtt_cert
         - zwgate_secrets
 
 # TODO: Password still in clear text on docker host
 secrets:
     mqbroker_key:
-      file: /home/digital/.nathan/mosquitto/nathan-mqbroker.nathan.home.key
+      file: /home/digital/.nathan/mosquitto/mqbroker-20240106.key
     mqbroker_cert:
-      file: /home/digital/.nathan/mosquitto/nathan-mqbroker.nathan.home.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-20240106.pem
     mqbroker_ca:
-      file: /home/digital/.nathan/nathan.home-chain.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-trust-20240106.pem
     mqbroker_passwd:
       file: /home/digital/.nathan/mosquitto/mosquitto.passwd
     hass_key:
-      file: /home/digital/.nathan/homeassistant/nathan-nathan.home.key
+      file: /home/digital/.nathan/common/nathan-20240106.key
     hass_cert:
-      file: /home/digital/.nathan/homeassistant/nathan-nathan.home.pem
+      file: /home/digital/.nathan/common/nathan-20240106.pem
     hass_ca:
-      file: /home/digital/.nathan/nathan.home-chain.pem
+      file: /home/digital/.nathan/homeassistant/homeassistant-trust-20240106.pem
     hass_secrets:
       file: /home/digital/.nathan/homeassistant/secrets.yaml
+    zwgate_key:
+      file: /home/digital/.nathan/common/nathan-20240106.key
+    zwgate_cert:
+      file: /home/digital/.nathan/common/nathan-20240106.pem
+    zwgate_mqtt_ca:
+      file: /home/digital/.nathan/zwgate/zwgate-trust-20240106.pem
+    zwgate_mqtt_key:
+      file: /home/digital/.nathan/zwgate/zwgate-client-20240106.key
+    zwgate_mqtt_cert:
+      file: /home/digital/.nathan/zwgate/zwgate-client-20240106.pem
     zwgate_secrets:
       file: /home/digital/.nathan/zwgate/secrets.txt
-    zwgate_key:
-      file: /home/digital/.nathan/zwgate/nathan-nathan.home.key
-    zwgate_cert:
-      file: /home/digital/.nathan/zwgate/nathan-nathan.home.pem
-    zwgate_ca:
-      file: /home/digital/.nathan/nathan.home-chain.pem
     homedb_rootpass:
       file: /home/digital/.nathan/homedb/maria.pwd
     homedb_hasspass:
