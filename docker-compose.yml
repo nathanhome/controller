@@ -25,6 +25,8 @@ services:
         - PGID=1884
         - UMASK=007
         - PACKAGES=iputils
+        - HASS_MQTT_HOST=mqbroker
+        - HASS_MQTT_PORT=8883
       volumes:
         # this is a mounting workaround as homeassistant expects secrets file under
         # /config/secrets.yaml, which we deviated in docker image to docker-compose
@@ -43,8 +45,10 @@ services:
       secrets:
         - hass_key
         - hass_cert
-        - hass_ca
         - hass_secrets
+        - hass_mqtt_trust
+        - hass_mqtt_cert
+        - hass_mqtt_key
       depends_on:
         - mqbroker
         - homedb
@@ -147,31 +151,35 @@ services:
 # TODO: Password still in clear text on docker host
 secrets:
     mqbroker_key:
-      file: /home/digital/.nathan/mosquitto/mqbroker-20240106.key
+      file: /home/digital/.nathan/mosquitto/mqbroker-202401.key
     mqbroker_cert:
-      file: /home/digital/.nathan/mosquitto/mqbroker-20240106.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-202401.pem
     mqbroker_ca:
-      file: /home/digital/.nathan/mosquitto/mqbroker-trust-20240106.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-trust-202401.pem
     mqbroker_passwd:
       file: /home/digital/.nathan/mosquitto/mosquitto.passwd
     hass_key:
-      file: /home/digital/.nathan/common/nathan-20240106.key
+      file: /home/digital/.nathan/common/nathan-202401.key
     hass_cert:
-      file: /home/digital/.nathan/common/nathan-20240106.pem
-    hass_ca:
-      file: /home/digital/.nathan/homeassistant/homeassistant-trust-20240106.pem
+      file: /home/digital/.nathan/common/nathan-202401.pem
+    hass_mqtt_trust:
+      file: /home/digital/.nathan/homeassistant/homeassistant-trust-202401.pem
+    hass_mqtt_cert:
+      file: /home/digital/.nathan/homeassistant/homeassistant-client-202401.pem
+    hass_mqtt_key:
+      file: /home/digital/.nathan/homeassistant/homeassistant-client-202401.key
     hass_secrets:
       file: /home/digital/.nathan/homeassistant/secrets.yaml
     zwgate_key:
-      file: /home/digital/.nathan/common/nathan-20240106.key
+      file: /home/digital/.nathan/common/nathan-202401.key
     zwgate_cert:
-      file: /home/digital/.nathan/common/nathan-20240106.pem
+      file: /home/digital/.nathan/common/nathan-202401.pem
     zwgate_mqtt_ca:
-      file: /home/digital/.nathan/zwgate/zwgate-trust-20240106.pem
+      file: /home/digital/.nathan/zwgate/zwgate-trust-202401.pem
     zwgate_mqtt_key:
-      file: /home/digital/.nathan/zwgate/zwgate-client-20240106.key
+      file: /home/digital/.nathan/zwgate/zwgate-client-202401.key
     zwgate_mqtt_cert:
-      file: /home/digital/.nathan/zwgate/zwgate-client-20240106.pem
+      file: /home/digital/.nathan/zwgate/zwgate-client-202401.pem
     zwgate_secrets:
       file: /home/digital/.nathan/zwgate/secrets.txt
     homedb_rootpass:
