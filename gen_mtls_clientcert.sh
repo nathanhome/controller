@@ -41,22 +41,10 @@ while (( "$#" )); do
 done
 
 cn=$(echo "$subject" | sed -n "s/.*[Cc][Nn]=\(.*\)$/\1/p" )
-clientfile=${cert_dir}/${cn}-client-$(date "+%Y%m%d")
+clientfile=${cert_dir}/${cn}-client-$(date "+%Y%m")
 
 
 echo "+++ New clientself-signed cert: $subject ($altnames) +++"
-### saveguard old key and cert
-if [ -f ${clientfile}.key ]; then
-    mv -i ${clientfile}.key ${clientfile}-$(date "+%Y%m%d%H%M%S").key.bak
-fi
-if [ -f ${clientfile}.pem ]; then
-    mv -i ${clientfile}.pem ${clientfile}-$(date "+%Y%m%d%H%M%S").pem.bak
-fi
-if [ -f ${clientfile}.der ]; then
-    mv -i ${clientfile}.der ${clientfile}-$(date "+%Y%m%d%H%M%S").der.bak
-fi
-
-
 # generate a cert request, which gradually produces a server cert
 # secp384r1 is at the moment the highest bit level for TLS 1.2/TLS 1.3
 openssl ecparam -name secp384r1 -genkey -out ${clientfile}.key

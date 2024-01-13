@@ -44,7 +44,7 @@ while (( "$#" )); do
 done
 
 cn=$(echo "$subject" | sed -n "s/.*[Cc][Nn]=\(.*\)$/\1/p" )
-serverfile=${cert_dir}/${cn}-$(date "+%Y%m%d")
+serverfile=${cert_dir}/${cn}-$(date "+%Y%m")
 
 if [ -z ${altnames+x} ]; then
     subjectaltdn_addext=""
@@ -54,7 +54,6 @@ fi
 
 
 echo "+++ New server self-signed cert: $subject ($altnames) +++"
-
 # generate a cert request, which gradually produces a server cert
 # secp384r1 is at the moment the highest bit level for TLS 1.2/TLS 1.3
 openssl ecparam -name secp384r1 -genkey -out ${serverfile}.key

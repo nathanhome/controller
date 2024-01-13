@@ -6,11 +6,11 @@
 # formats
 #
 
-set -x
+#set -x
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-trustfile="cacerts"-$(date "+%Y%m%d")
+trustfile="cacerts"-$(date "+%Y%m")
 user=$(whoami)
 group=$(whoami)
 
@@ -27,7 +27,7 @@ do
                         shift
                         ;;
         -f | --out  ) shift
-                        trustfile="$1"-$(date "+%Y%m%d")
+                        trustfile="$1"-$(date "+%Y%m")
                         shift
                         ;;
         * ) continue_loop=0
@@ -42,7 +42,7 @@ do
     if [ ! -f "$file" ]; then
         # if the exact filename does not match: try with the current date stamp
         # for convenience only; you can always override by exact names
-        file=${fileprefix}-$(date "+%Y%m%d").pem
+        file=${fileprefix}-$(date "+%Y%m").pem
     fi
     (printf "#\n# Cert alias=%s\n# %s\n#\n" \
         "$(openssl x509 -alias -noout -in $file)" \
