@@ -1,6 +1,6 @@
 FROM homeassistant/home-assistant:2023.12
 
-LABEL version="2023.12-1" \
+LABEL version="2023.12-2" \
       description="Secure homeassistant setup for NATHAN@home" \
       maintainer="rbe-git@t-online.de"
 
@@ -9,6 +9,11 @@ LABEL version="2023.12-1" \
 #
 
 # re-wire secrets to docker-compose injected secrets, by soft link
-RUN ln -s /run/secrets/hass_secrets /config/secrets.yaml
+# and set up for the S6 overlay system used by homeassistant
+COPY ./runwithsecrets.sh  /bin
+RUN chmod +x /bin/runwithsecrets.sh
 
 EXPOSE 4443/tcp
+
+# we overrride the s6-overlay init to run our scripts before homeassistant starts
+ENTRYPOINT ["/bin/runwithsecrets.sh"]

@@ -16,17 +16,34 @@ logger:
     # homeassistant.components.mqtt: debug
 
 mqtt:
-  sensor: !include_dir_list site/mqtt
+  - mqtt:
+    broker: mqbroker
+    port: 8883
+    
+  # - sensor: !include_dir_list site/mqtt
 
 recorder:
   db_url: !secret db_url
-  
-# Configure a default setup of Home Assistant (frontend, api, etc)
-default_config:   
-  group: !include site/groups.yaml
-  automation: !include site/automations.yaml
-  script: !include site/scripts.yaml
-  scene: !include site/scenes.yaml
 
-  
+frontend:
+  themes:
+    default:
+      primary-color: "#005f6a"
+      modes:
+        light:
+          accent-color: "#6a0a00"
+        dark:
+          accent-color: "#6a0a00"
+      
+# Configure a default setup of Home Assistant (frontend, api, etc)
+group: !include site/groups.yaml
+automation: !include site/automations.yaml
+script: !include site/scripts.yaml
+scene: !include site/scenes.yaml
+
+# this is needed if default_config is removed
+my:
+mobile_app:
+
+
   

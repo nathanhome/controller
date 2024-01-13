@@ -13,3 +13,29 @@ The connection string in the documentation is not correct, use
 -----
 mysql://user:password@SERVER_ADDRESS[:PORT]/DB_NAME?charset=utf8mb4&ssl=true
 -----
+
+== Required integrations
+- MQTT (`mqtt:`)
+- Mobile App (`mobile_app:`)
+- My (`my:`)
+
+=== Mobile App Integration install
+- add `mobile_app:` to `configuration.yaml``
+- Add the Mobile App integration in UI. As soon as the popup shows up, login with at least one mobile device.
+  On successful login, the Mobile App integration stays in the list of integration, mobile access is working.
+
+=== Homeassistant MQTT integration: python certificate handling
+Connecting to a MQTT broker with tls and client certificate authentication has some pitfalls.
+The certificate generation scripts (see `refresh-certs.sh`) solve this for you.
+
+In detail:
+* For the server certificate, it is not enough to have the server dns name in "CN=". Python also expects the
+  same name in "subjectAltDN".
+* For the trusted CAs, if using self-signed certificates, it is not enough to add the MQTT broker server
+  certificate there. The cleint certificate used for clientAuth is also checked by the python framework.
+  If the root ca (chain) is not in the trusted certificates, which is the case for self-signed certificates,
+  the client certificate has also to be added.
+
+IT is also recommended to use the MQTT v5 protocol version. 
+
+
