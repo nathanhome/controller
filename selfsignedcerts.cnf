@@ -32,6 +32,12 @@ organizationalUnitName_default = Private
 commonName                  = Common Name (e.g. server FQDN or YOUR name)
 commonName_max              = 64
 
+[ server_ca ]
+basicConstraints = critical, CA:TRUE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer:always
+keyUsage = nonRepudiation,digitalSignature,cRLSign,keyCertSign
+
 [ server_cert ]
 basicConstraints = critical, CA:FALSE
 subjectKeyIdentifier = hash
@@ -39,12 +45,12 @@ authorityKeyIdentifier = keyid,issuer:always
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth
 nsCertType = server
-nsComment = "OpenSSL Generated SelfSigned Server Certificate"
+nsComment = "OpenSSL Generated Server Certificate"
 
 [ client_auth_cert ]
 basicConstraints = CA:false
 nsCertType = client
-nsComment = "OpenSSL Generated SelfSigned Client Certificate"
+nsComment = "OpenSSL Generated Client Certificate"
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer
 keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
