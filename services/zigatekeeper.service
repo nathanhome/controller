@@ -1,0 +1,16 @@
+[Unit]
+Description=Silvercrest Serial2ip gateway 
+After=network.target 
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/socat -v -d -d pty,link=/dev/zigbee,raw,echo=0,user=digital,group=tty,mode=660 TCP4:zigatekeeper:8888
+# ExecStart=/usr/bin/socat -dd pty,link=/dev/ttyZigbee,raw,echo=0,user=digital,group=tty,mode=660 OPENSSL-CONNECT:zigatekeeper:4888,cert=$HOME/etc/client.pem,cafile=$HOME/etc/server.crt
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-abort
+RestartPreventExitStatus=255
+
+[Install]
+WantedBy=multi-user.target
+
