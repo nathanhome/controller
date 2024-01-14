@@ -1,0 +1,45 @@
+# Home Assistant integration (MQTT discovery)
+homeassistant: true
+
+# Let new devices join our zigbee network
+permit_join: true
+
+frontend:
+  # Optional, certificate file path for exposing HTTPS. The sibling property 'ssl_key' must be set for HTTPS to be activated
+  ssl_cert: /run/secrets/zigate_cert
+  # Optional, private key file path for exposing HTTPS. The sibling property 'ssl_cert' must be set for HTTPS to be activated
+  ssl_key: /run/secrets/zigate_key
+
+# MQTT settings
+mqtt:
+  # MQTT base topic for zigbee2mqtt MQTT messages
+  base_topic: zigate
+  # MQTT server URL
+  server: 'mqtts://mqbroker'
+  # MQTT server authentication, uncomment if required:
+  client_id: 'zigate'
+  ca: '/run/secrets/zigate_trust'
+  # Optional: absolute paths to SSL/TLS key and certificate for client-authentication (default: nothing)
+  key: '/run/secrets/zigate_mqtt_key'
+  cert: '/run/secrets/zigate_mqtt_cert'
+
+# Serial settings
+serial:
+  adapter: ezsp
+  # using device mount to zigatekeepr ip gateway via socat
+  # port: /dev/zigbee
+  baudrate: 115200
+  # port: tcp://zigatekeeper:8888
+  port: tcp://192.168.44.110:8888
+
+# Let Zigbee2MQTT generate a new network key on first start
+advanced:
+  # TODO: make these values secret
+  channel: 11
+  pan_id: 0x26ba
+  ext_pan_id: [ 0x2D, 0x51, 0x47, 0x60, 0x85, 0x30, 0xD3, 0x8E ]
+  network_key: [ 0x41, 0xF4, 0x42, 0x14, 0x3B, 0x89, 0x47, 0xAE, 0xB9, 0x43, 0x67, 0xBC, 0x77, 0x2D, 0x01, 0x7C ]
+
+  log_level: debug
+  log_output:
+    - console

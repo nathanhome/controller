@@ -148,6 +148,34 @@ services:
         - zwgate_mqtt_cert
         - zwgate_secrets
 
+    zigate:
+      # restart: unless-stopped
+      image: "koenkk/zigbee2mqtt:${NATHAN_ZIGBEE2MQTT_VERSION}"
+      user: 1886:1886
+      group_add:
+        - ${NATHAN_GROUP}
+        - ${TTY_GROUP}
+      volumes:
+        - /home/zigate/.nathan/data:/app/data
+        - /run/udev:/run/udev:ro
+      ports:
+        - 8092:8080
+      environment:
+        - TZ=Europe/Berlin
+      #devices:
+      #  - /dev/zigbee:/dev/zigbee
+      networks:
+        - home-net
+      secrets:
+        - zigate_key
+        - zigate_cert
+        - zigate_trust
+        - zigate_mqtt_cert
+        - zigate_mqtt_key
+        - zigate_secrets.yaml
+
+
+
 # TODO: Password still in clear text on docker host
 secrets:
     mqbroker_key:
@@ -170,6 +198,18 @@ secrets:
       file: /home/digital/.nathan/homeassistant/homeassistant-client-202401.key
     hass_secrets:
       file: /home/digital/.nathan/homeassistant/secrets.yaml
+    zigate_key:
+      file: /home/digital/.nathan/common/nathan-202401.key
+    zigate_cert:
+      file: /home/digital/.nathan/common/nathan-202401.pem
+    zigate_trust:
+      file: /home/digital/.nathan/zigate/zigate-trust-202401.pem
+    zigate_mqtt_key:
+      file: /home/digital/.nathan/zigate/zigate-client-202401.key
+    zigate_mqtt_cert:
+      file: /home/digital/.nathan/zigate/zigate-client-202401.pem
+    zigate_secrets.yaml:
+      file: /home/digital/.nathan/zigate/secrets.yaml
     zwgate_key:
       file: /home/digital/.nathan/common/nathan-202401.key
     zwgate_cert:
