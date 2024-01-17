@@ -12,34 +12,38 @@ frontend:
 
 # MQTT settings
 mqtt:
+  # MQTT server identifier, uncomment if required:
+  client_id: 'zigate'
   # MQTT base topic for zigbee2mqtt MQTT messages
   base_topic: zigate
   # MQTT server URL
   server: 'mqtts://mqbroker'
-  # MQTT server authentication, uncomment if required:
-  client_id: 'zigate'
+  # use mqtt version 5 for retention
+  version: 5
+  # mTLS trust and client authentication by certificate
   ca: '/run/secrets/zigate_trust'
-  # Optional: absolute paths to SSL/TLS key and certificate for client-authentication (default: nothing)
   key: '/run/secrets/zigate_mqtt_key'
   cert: '/run/secrets/zigate_mqtt_cert'
 
 # Serial settings
 serial:
-  adapter: ezsp
   # using device mount to zigatekeepr ip gateway via socat
-
+  adapter: ezsp
   baudrate: 115200
   port: /dev/zigbee
-  # port: tcp://192.168.44.110:8888
-
-# Let Zigbee2MQTT generate a new network key on first start
+  
 advanced:
-  # TODO: make these values secret
+  # keep network keys for zigbee network stable
+  # TODO: make these values secret; not working atm
   channel: 11
   pan_id: 0x26ba
   ext_pan_id: [ 0x2D, 0x51, 0x47, 0x60, 0x85, 0x30, 0xD3, 0x8E ]
   network_key: [ 0x41, 0xF4, 0x42, 0x14, 0x3B, 0x89, 0x47, 0xAE, 0xB9, 0x43, 0x67, 0xBC, 0x77, 0x2D, 0x01, 0x7C ]
 
-  log_level: debug
+  log_level: info
   log_output:
     - console
+
+# Define the files which contains the configs 
+devices: devices.yaml
+groups: groups.yaml
