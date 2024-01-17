@@ -27,10 +27,10 @@ mqtt:
 serial:
   adapter: ezsp
   # using device mount to zigatekeepr ip gateway via socat
-  # port: /dev/zigbee
+
   baudrate: 115200
-  # port: tcp://zigatekeeper:8888
-  port: tcp://192.168.44.110:8888
+  port: /dev/zigbee
+  # port: tcp://192.168.44.110:8888
 
 # Let Zigbee2MQTT generate a new network key on first start
 advanced:

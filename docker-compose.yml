@@ -157,13 +157,12 @@ services:
         - ${TTY_GROUP}
       volumes:
         - /home/zigate/.nathan/data:/app/data
+        - /dev/zigbee:/dev/zigbee
         - /run/udev:/run/udev:ro
       ports:
         - 8092:8080
       environment:
         - TZ=Europe/Berlin
-      #devices:
-      #  - /dev/zigbee:/dev/zigbee
       networks:
         - home-net
       secrets:
