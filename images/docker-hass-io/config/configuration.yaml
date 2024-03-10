@@ -44,6 +44,6 @@ scene: !include site/scenes.yaml
 # this is needed if default_config is removed
 my:
 mobile_app:
-
+bluetooth:
 
   

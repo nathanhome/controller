@@ -17,6 +17,7 @@ services:
         context: ./images/docker-hass-io
       group_add:
         - ${NATHAN_GROUP}
+        - ${BLUETOOTH_GROUP}
       ports:
         - 443:4443
       environment:
@@ -38,6 +39,7 @@ services:
         - "/home/assistant/.nathan/config/site:/config/site"
         - "/home/assistant/.nathan/config/tts:/config/tts"
         - "/etc/localtime:/etc/localtime:ro"
+        - "/run/dbus:/run/dbus:ro"         # bluetooth non-priviledged, non-host network 
       networks:
         - home-net
       security_opt:  
@@ -100,7 +102,7 @@ services:
         - mqbroker_passwd
 
     zwgate:
-      # restart: unless-stopped
+      restart: unless-stopped
       image: "nathanhome/zwavejs:${NATHAN_ZWAVEJS_VERSION}"
       build:
         context: ./images/docker-zwavejs
@@ -113,7 +115,7 @@ services:
       devices:
           # Do not use /dev/ttyUSBX serial devices, as those mappings can change over time.
           # Instead, use the /dev/serial/by-id/X serial device for your Z-Wave stick.
-          - '/dev/ttyACM0:/dev/zwave'
+          - '/dev/serial/by-id/usb-0658_0200-if00:/dev/zwave'
       volumes:
           - zwave-config:/usr/src/app/store
       # Or by using local folder
@@ -149,7 +151,7 @@ services:
         - zwgate_secrets
 
     zigate:
-      # restart: unless-stopped
+      restart: unless-stopped
       image: "koenkk/zigbee2mqtt:${NATHAN_ZIGBEE2MQTT_VERSION}"
       user: 1886:1886
       group_add:
@@ -173,7 +175,37 @@ services:
         - zigate_mqtt_key
         - zigate_secrets.yaml
 
-
+#    solarspot:
+#      restart: unless-stopped
+#      image: "nathanhome/sbfspot:${NATHAN_SBFSPOT_VERSION}"
+#      build:
+#        context: ./images/docker-sbfspot
+#        args:
+#          - user=solar
+#          - group=solar
+#          - uid=1888
+#          - pid=1888
+#      user: 1888:1888
+#      group_add:
+#        - ${NATHAN_GROUP}
+#        - ${BLUETOOTH_GROUP}
+#      tty: true
+#      volumes:
+#        - "/etc/localtime:/etc/localtime:ro"
+#        - "/run/dbus:/run/dbus:ro"
+#      environment:
+#        - TZ=Europe/Berlin
+#        - ENABLE_SBFSPOT=1
+#        - SBFSPOT_INTERVAL=300
+#        - ENABLE_SBFSPOT_UPLOAD=0
+#        - DB_STORAGE=mariadb
+#        - CSV_STORAGE=0
+#        - MQTT_ENABLE=1
+#        - QUIET=0
+#        - SBFSPOT_ARGS="-d0 -v2"
+#        - INIT_DB=0
+#      networks:
+#        - home-net
 
 # TODO: Password still in clear text on docker host
 secrets:

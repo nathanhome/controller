@@ -35,6 +35,25 @@ while IFS= read -r line; do
   export $line
 done < /run/secrets/zwgate_secrets
 
+#
+# Inline JSON settings manipulation with node.js
+#
+node <<EOF
+var fs = require("fs");
+var pkgJSON = require("/usr/src/app/store/settings.json");
+
+pkgJSON.app.version = "12.32.5";
+
+var p = JSON.stringify(pkgJSON);
+fs.writeFile("/usr/src/app/store/settings.json", p, "utf8", (err) => {
+  if (err) {
+    throw err;
+    console.log('Entrypoint secret configuration failed!');′
+  }
+});
+EOF
+
+
 # this is a setting workaround until there is a better way
 if [ ! -f /usr/src/app/store/settings.json ]; then
   echo {"mqtt":{"host": "","port": 8883,"_ca": "","ca": "","_cert": "","cert": "","_key": "","key": ""} \
