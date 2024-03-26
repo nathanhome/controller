@@ -40,6 +40,10 @@ services:
         - "/home/assistant/.nathan/config/tts:/config/tts"
         - "/etc/localtime:/etc/localtime:ro"
         - "/run/dbus:/run/dbus:ro"         # bluetooth non-priviledged, non-host network 
+      logging:
+        options:
+          max-size: "10m"
+          max-file: "3"
       networks:
         - home-net
       security_opt:  
@@ -72,6 +76,10 @@ services:
         - MARIADB_PASSWORD_FILE=/run/secrets/homedb_hasspass
       volumes:
         - /home/homedb/.nathan/data:/var/lib/mysql
+      logging:
+        options:
+          max-size: "10m"
+          max-file: "3"
       networks:
         - home-net
       secrets:
@@ -93,6 +101,10 @@ services:
         - /home/mosquitto/.nathan/data:/mosquitto/data
         - /home/mosquitto/.nathan/config:/mosquitto/config
         - /var/log/mqbroker:/mosquitto/log
+      logging:
+        options:
+          max-size: "10m"
+          max-file: "3"
       networks:
         - home-net
       secrets:
@@ -118,6 +130,10 @@ services:
           - '/dev/serial/by-id/usb-0658_0200-if00:/dev/zwave'
       volumes:
           - zwave-config:/usr/src/app/store
+      logging:
+        options:
+          max-size: "10m"
+          max-file: "3"
       # Or by using local folder
       # - ./store:/usr/src/app/store
       ports:
@@ -161,6 +177,10 @@ services:
         - /home/zigate/.nathan/data:/app/data
         - /dev/zigbee:/dev/zigbee
         - /run/udev:/run/udev:ro
+      logging:
+        options:
+          max-size: "10m"
+          max-file: "3"
       ports:
         - 8092:8080
       environment:
