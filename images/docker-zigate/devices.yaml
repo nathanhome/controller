@@ -1,7 +1,12 @@
 '0xa4c1382af00153f7':
-  friendly_name: "KioskCharger1"
-  description: "Ladegerät-Steuerung für Kiosk-Tablet1"
-  
+  friendly_name: KioskCharger1
+  description: Ladegerät-Steuerung für Kiosk-Tablet1
 '0xa4c1388f96a9f994':
-  friendly_name: "Haustür Klingel"
-  description: "Haustür Klingel mit zusätzlichem Alarmton"
+  friendly_name: Haustür Klingel
+  description: Haustür Klingel mit zusätzlichem Alarmton
+'0xa4c1381af0470b42':
+  friendly_name: Stecker1
+'0xa4c13872b6fd4f98':
+  friendly_name: Stecker2
+'0xa4c13874eb47b327':
+  friendly_name: Stecker3

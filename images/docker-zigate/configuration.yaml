@@ -27,10 +27,12 @@ mqtt:
 
 # Serial settings
 serial:
-  # using device mount to zigatekeepr ip gateway via socat
+  # direct ip connection to gateway (more robust if gatekeeper is temporary down)
+  port: 'tcp://192.168.44.110:8888'
+  #port: 'tcp://zigatekeeper:8888'
+  # port: /dev/zigbee   - old socat version
   adapter: ezsp
   baudrate: 115200
-  port: /dev/zigbee
   
 advanced:
   # keep network keys for zigbee network stable

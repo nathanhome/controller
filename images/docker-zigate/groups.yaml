@@ -8,11 +8,19 @@
   friendly_name: "Alarme"
   devices:
     - "0xa4c1388f96a9f994"
-# '3':
+
+'3':
+  friendly_name: "Energiestecker"
+  devices:
+    - "0xa4c1381af0470b42"
+    - "0xa4c13872b6fd4f98"
+    - "0xa4c13874eb47b327"
+    
+# '4':
 #  friendly_name: Fenstersensoren
 #  devices:
 #    - 0x00158d0001d8299x
-# '4':
+# '5':
 #  friendly_name: Thermostate
 #  devices:
 #    - 0x00158d0001d82999
