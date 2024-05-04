@@ -195,37 +195,39 @@ services:
         - zigate_mqtt_key
         - zigate_secrets.yaml
 
-#    solarspot:
-#      restart: unless-stopped
-#      image: "nathanhome/sbfspot:${NATHAN_SBFSPOT_VERSION}"
-#      build:
-#        context: ./images/docker-sbfspot
-#        args:
-#          - user=solar
-#          - group=solar
-#          - uid=1888
-#          - pid=1888
-#      user: 1888:1888
-#      group_add:
-#        - ${NATHAN_GROUP}
-#        - ${BLUETOOTH_GROUP}
-#      tty: true
-#      volumes:
-#        - "/etc/localtime:/etc/localtime:ro"
-#        - "/run/dbus:/run/dbus:ro"
-#      environment:
-#        - TZ=Europe/Berlin
-#        - ENABLE_SBFSPOT=1
-#        - SBFSPOT_INTERVAL=300
-#        - ENABLE_SBFSPOT_UPLOAD=0
-#        - DB_STORAGE=mariadb
-#        - CSV_STORAGE=0
-#        - MQTT_ENABLE=1
-#        - QUIET=0
-#        - SBFSPOT_ARGS="-d0 -v2"
-#        - INIT_DB=0
-#      networks:
-#        - home-net
+    solarspot:
+      profiles:
+        - donotstart
+      restart: unless-stopped
+      image: "nathanhome/sbfspot:${NATHAN_SBFSPOT_VERSION}"
+      build:
+        context: ./images/docker-sbfspot
+        args:
+          - user=solar
+          - group=solar
+          - uid=1888
+          - pid=1888
+      user: 1888:1888
+      group_add:
+        - ${NATHAN_GROUP}
+        - ${BLUETOOTH_GROUP}
+      tty: true
+      volumes:
+        - "/etc/localtime:/etc/localtime:ro"
+        - "/run/dbus:/run/dbus:ro"
+      environment:
+        - TZ=Europe/Berlin
+        - ENABLE_SBFSPOT=1
+        - SBFSPOT_INTERVAL=300
+        - ENABLE_SBFSPOT_UPLOAD=0
+        - DB_STORAGE=mariadb
+        - CSV_STORAGE=0
+        - MQTT_ENABLE=1
+        - QUIET=0
+        - SBFSPOT_ARGS="-d0 -v2"
+        - INIT_DB=0
+      networks:
+        - home-net
 
 # TODO: Password still in clear text on docker host
 secrets:

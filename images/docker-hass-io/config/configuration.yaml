@@ -16,11 +16,7 @@ logger:
     # homeassistant.components.mqtt: debug
 
 mqtt:
-  - mqtt:
-    broker: mqbroker
-    port: 8883
-    
-  # - sensor: !include_dir_list site/mqtt
+  - sensor: !include_dir_list site/mqtt
 
 recorder:
   db_url: !secret db_url
@@ -34,16 +30,26 @@ frontend:
           accent-color: "#6a0a00"
         dark:
           accent-color: "#6a0a00"
-      
+
+# groups
+binary_sensor groups: !include site/binary_groups.yaml
+
 # Configure a default setup of Home Assistant (frontend, api, etc)
-group: !include site/groups.yaml
-automation: !include site/automations.yaml
-script: !include site/scripts.yaml
-scene: !include site/scenes.yaml
+automation smokesensors: !include site/auto_smokesensors.yaml
+#script: !include site/scripts.yaml
+#scene: !include site/scenes.yaml
 
 # this is needed if default_config is removed
 my:
 mobile_app:
 bluetooth:
-
+input_datetime:
+input_select:
+input_number:
+input_boolean:
+input_button:
+input_text:
+timer:
+counter:
+schedule:
   

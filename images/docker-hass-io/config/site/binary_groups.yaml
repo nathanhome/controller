@@ -1,0 +1,17 @@
+- platform: group
+  name: "Fibaro Rauch Alarme"
+  # symbol: "mdi:smoke-detector-variant-alert"
+  entities:
+    - binary_sensor.flur_rauchflur_smoke_alarm
+    - binary_sensor.schlafzimmer_rauchschlafen_smoke_alarm
+    - binary_sensor.wohnzimmer_rauchwohnen_smoke_alarm
+    - binary_sensor.julianzimmer_rauchjulian_smoke_alarm
+
+- platform: group
+  name: "Fibaro Hitze Alarme"
+  # symbol: "mdi:bullhorn"
+  entities:
+    - binary_sensor.flur_rauchflur_heat_sensor_status
+    - binary_sensor.schlafzimmer_rauchschlafen_heat_sensor_status
+    - binary_sensor.wohnzimmer_rauchwohnen_heat_sensor_status
+    - binary_sensor.julianzimmer_rauchjulian_heat_sensor_status

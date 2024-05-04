@@ -1,0 +1,19 @@
+###
+# the Fibaro Smoke sensors are not connected, so we enable
+# the non-Fibaro sensor(s) that offer to enable the horn, some more noise sources
+# and send notifications to mobiles  
+- alias: "Smoke alarm signalling on"
+  initial_state: false
+  trigger:
+
+- alias: "Heat alarm signalling on"
+  initial_state: false
+  trigger:
+
+- alias: "Smoke alarm signalling off"
+  initial_state: true
+  trigger:
+
+- alias: "Heat alarm signalling off"
+  initial_state: false
+  trigger:
