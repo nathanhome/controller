@@ -1,0 +1,42 @@
+###
+# automation actions for charging and activation of control tablets
+- alias: "Tablet1 start loading"
+  id: "tablet1_charge_autostart"
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.tablet1_batterie
+  condition:
+    and:
+      - condition: numeric_state
+        entity_id: sensor.tablet1_batterie
+        below: 20
+      - condition: state
+        entity_id: binary_sensor.tablet1_eingesteckt
+        state: "off"
+  action:
+    - type: turn_on
+      device_id: ebe59b3a44d8f58f43c744ba4d83c487
+      entity_id: af69592acb9deed2ae9efe4ef4ced3b0
+      domain: switch
+
+
+- alias: "Tablet1 stop loading"
+  id: "tablet1_charge_autostop"
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.tablet1_batterie
+  condition:
+    and:
+      - condition: numeric_state
+        entity_id: sensor.tablet1_batterie
+        below: 20
+      - condition: state
+        entity_id: binary_sensor.tablet1_eingesteckt
+        state: "on"
+  action:
+    - type: turn_off
+      device_id: ebe59b3a44d8f58f43c744ba4d83c487
+      entity_id: af69592acb9deed2ae9efe4ef4ced3b0
+      domain: switch
