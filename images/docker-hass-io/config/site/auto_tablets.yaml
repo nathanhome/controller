@@ -15,10 +15,10 @@
         entity_id: binary_sensor.tablet1_eingesteckt
         state: "off"
   action:
-    - type: turn_on
-      device_id: ebe59b3a44d8f58f43c744ba4d83c487
-      entity_id: af69592acb9deed2ae9efe4ef4ced3b0
-      domain: switch
+    - service: switch.turn_on
+      target:
+        entity_id:
+          - switch.kioskcharger1
 
 
 - alias: "Tablet1 stop loading"
@@ -36,7 +36,7 @@
         entity_id: binary_sensor.tablet1_eingesteckt
         state: "on"
   action:
-    - type: turn_off
-      device_id: ebe59b3a44d8f58f43c744ba4d83c487
-      entity_id: af69592acb9deed2ae9efe4ef4ced3b0
-      domain: switch
+    - service: switch.turn_off
+      target:
+        entity_id:
+          - switch.kioskcharger1
