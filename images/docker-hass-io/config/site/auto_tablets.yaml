@@ -31,7 +31,7 @@
     and:
       - condition: numeric_state
         entity_id: sensor.tablet1_batterie
-        below: 20
+        above: 80
       - condition: state
         entity_id: binary_sensor.tablet1_eingesteckt
         state: "on"
