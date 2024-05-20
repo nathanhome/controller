@@ -36,7 +36,7 @@ binary_sensor groups: !include site/binary_groups.yaml
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 automation smokesensors: !include site/auto_smokesensors.yaml
-automation smokesensors: !include site/auto_tablets.yaml
+automation tablets: !include site/auto_tablets.yaml
 #script: !include site/scripts.yaml
 #scene: !include site/scenes.yaml
 
