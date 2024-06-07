@@ -38,6 +38,7 @@ services:
         - "/home/assistant/.nathan/config/blueprints:/config/blueprints"
         - "/home/assistant/.nathan/config/site:/config/site"
         - "/home/assistant/.nathan/config/tts:/config/tts"
+        - "/home/assistant/.nathan/config/www:/config/www"
         - "/etc/localtime:/etc/localtime:ro"
         - "/run/dbus:/run/dbus:ro"         # bluetooth non-priviledged, non-host network 
       logging:
