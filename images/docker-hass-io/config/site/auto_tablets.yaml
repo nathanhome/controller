@@ -20,7 +20,6 @@
         entity_id:
           - switch.kioskcharger1
 
-
 - alias: "Tablet1 stop loading"
   id: "tablet1_charge_autostop"
   trigger:
@@ -40,3 +39,57 @@
       target:
         entity_id:
           - switch.kioskcharger1
+
+- alias: "Tablet gastwc window open alarm"
+  id: "tablet1_guest_wcgast_alarm"
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.fenstersensor_wcgast_contact
+      to: "on"
+  action:
+    alias: "Set fully kiosk screensaver to alarm"
+    sequence:
+      - service: fully_kiosk.set_config
+        data:
+          key: "screensaverWallpaperURL"
+          value: "https://nathan/local/gastwcopen.gif"
+        target:
+          - 73bbc85f6c81ba43cd3f950a62e8f2a9
+      - service: fully_kiosk.set_config
+        data:
+          key: "screensaverBrightness"
+          value: "50"
+        target:
+          - 73bbc85f6c81ba43cd3f950a62e8f2a9
+      - service: switch.turn_on
+        target:
+          entity_id:
+            - switch.tablet1_bildschirmschoner
+
+- alias: "Tablet gastwc window closed"
+  id: "tablet1_wcgast_closed"
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.fenstersensor_wcgast_contact
+      to: "off"
+  action:
+    alias: "Black out fully kiosk screensaver"
+    sequence:
+      - service: fully_kiosk.set_config
+        data:
+          key: "screensaverWallpaperURL"
+          value: "fully://color#000000"
+        target:
+          - 73bbc85f6c81ba43cd3f950a62e8f2a9
+      - service: fully_kiosk.set_config
+        data:
+          key: "screensaverBrightness"
+          value: "0"
+        target:
+          - 73bbc85f6c81ba43cd3f950a62e8f2a9
+      - service: switch.turn_off
+        target:
+          entity_id:
+            - switch.tablet1_bildschirmschoner
