@@ -51,10 +51,14 @@
       to: "on"
   action:
     # alias: "Set fully kiosk screensaver to alarm"
+    - service: switch.turn_off
+      target:
+        entity_id:
+          - switch.tablet1_bildschirmschoner
     - service: fully_kiosk.set_config
       data:
         key: "screensaverWallpaperURL"
-        value: "https://nathan/local/gastwcopen720.gif"
+        value: "https://nathan/local/gastwcopen576.gif"
       target:
         device_id:
           - 73bbc85f6c81ba43cd3f950a62e8f2a9
@@ -80,12 +84,16 @@
         - binary_sensor.fenstersensor_wcgast_contact
       to: "on"
       for:
-        minutes: 1
+        minutes: 17
   action:
+    - service: switch.turn_off
+      target:
+        entity_id:
+          - switch.tablet1_bildschirmschoner
     - service: fully_kiosk.set_config
       data:
         key: "screensaverWallpaperURL"
-        value: "https://nathan/local/gastwcalarm720.gif"
+        value: "https://nathan/local/gastwcalarm576.gif"
       target:
         device_id: 73bbc85f6c81ba43cd3f950a62e8f2a9
     - service: fully_kiosk.set_config
@@ -110,6 +118,10 @@
       to: "off"
   action:
     # alias: "Black out fully kiosk screensaver"
+    - service: switch.turn_off
+      target:
+        entity_id:
+          - switch.tablet1_bildschirmschoner
     - service: fully_kiosk.set_config
       data:
         key: "screensaverWallpaperURL"
@@ -122,7 +134,3 @@
         value: "0"
       target:
         device_id: 73bbc85f6c81ba43cd3f950a62e8f2a9
-    - service: switch.turn_off
-      target:
-        entity_id:
-          - switch.tablet1_bildschirmschoner
