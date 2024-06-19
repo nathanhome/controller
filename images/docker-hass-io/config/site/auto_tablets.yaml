@@ -65,7 +65,7 @@
     - service: fully_kiosk.set_config
       data:
         key: "screensaverBrightness"
-        value: "50"
+        value: "95"
       target:
         device_id:
           - 73bbc85f6c81ba43cd3f950a62e8f2a9
@@ -99,7 +99,7 @@
     - service: fully_kiosk.set_config
       data:
         key: "screensaverBrightness"
-        value: "50"
+        value: "95"
       target:
         device_id: 73bbc85f6c81ba43cd3f950a62e8f2a9
     - service: switch.turn_on
