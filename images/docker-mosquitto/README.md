@@ -42,3 +42,8 @@ Publish to test queue:
 docker exec -it controller_mqbroker_1 /usr/bin/mosquitto_pub -t test -h mqbroker \
   --cafile /run/secrets/mqbroker_ca  -u zwaver -m "Hello" -P "<pass>" 
 ```
+
+#### Test outside connection
+```
+mosquitto_pub --cafile clients/certs/ca.pem --cert clients/certs/client.pem --key clients/certs/client.key -t "homeassistant/sensor/<existing_sensor>/availability" -m "online" -h nathan -p 8883 -d
+```
