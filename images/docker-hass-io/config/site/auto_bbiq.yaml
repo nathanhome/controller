@@ -1,0 +1,100 @@
+# - alias: "Grill notification test"
+#   id: "bbiq_notification_test"
+#   trigger:
+#     - platform: state
+#       entity_id:
+#         - input_boolean.bbiq_grill1_surveillance
+#   action:
+#     # push notification
+#     - service: notify.BBIQ_GRILLERS
+#       data:
+#         title: "Grill surveillance {{ states('input_boolean.bbiq_grill1_surveillance') }}"
+#         message: > 
+#           Monitoring for {{ states.input_number.bbiq_grill1_temperature.state }} +/-{{ states.input_number.bbiq_grill1_tolerance.state_with_unit }}
+#         # {{ states.input_number.bbiq_grill1_temperature.state_with_unit }}
+#         data:
+#           # iOS
+#           presentation_options:
+#             - alert
+#             - badge
+#             #push:
+#             #  interruption-level: active
+#           # Android
+#           visibility: "public" # to have it even on the lock screen
+#           notification_icon: "mdi:grill"
+#           color: "blue"
+#           ledColor: "blue"
+#           channel: "BBiQ"
+#           # icon_url: ""
+#     - service: persistent_notification.create
+#       data:
+#         title: "Grill surveillance {{ states('input_boolean.bbiq_grill1_surveillance') }}"
+#         message: > 
+#           Monitoring for {{ states.input_number.bbiq_grill1_temperature.state }} +/-{{ states.input_number.bbiq_grill1_tolerance.state_with_unit }}
+
+- alias: "Grill temperature warning"
+  id: "bbiq_grill warning"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.bbiq_grill1_surveillance
+  action:
+    # push notification
+    - service: notify.BBIQ_GRILLERS
+      data:
+        title:  >
+          {% set value = states.sensor.bbiq_home_sensor_temperature1.state | int(default=0) %}
+          {% set upper_limit = (states.input_number.bbiq_grill1_temperature.state | int) + (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% set lower_limit = (states.input_number.bbiq_grill1_temperature.state | int) - (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% if value > upper_limit %}
+          HIGH grill temperature!
+          {% endif %}
+          {% if value < lower_limit %}
+          LOW grill temperature!
+          {% else %}
+          WARN Grill temperature!
+          {% endif %}
+        message: >
+          {% set upper_limit = (states.input_number.bbiq_grill1_temperature.state | int) + (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% set lower_limit = (states.input_number.bbiq_grill1_temperature.state | int) - (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% set unit = state_attr('input_number.bbiq_grill1_temperature', 'unit_of_measurement') %}
+          {{ states.sensor.bbiq_home_sensor_temperature1.state_with_unit }} outside of
+           [{{ upper_limit | string }}{{ unit }}, {{ lower_limit | string }}{{ unit }}].
+        data:
+          # iOS
+          presentation_options:
+            - alert
+            - badge
+            #push:
+            #  interruption-level: active
+          # Android
+          visibility: "public" # to have it even on the lock screen
+          notification_icon: "mdi:grill"
+          color: "orange"
+          ledColor: "orange"
+          priority: high
+          channel: "BBiQ"
+          media_stream: alarm_stream
+          # icon_url: ""
+    - service: persistent_notification.create
+      data:
+        title: >
+          {% set value = states.sensor.bbiq_home_sensor_temperature1.state | int(default=0) %}
+          {% set upper_limit = (states.input_number.bbiq_grill1_temperature.state | int) + (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% set lower_limit = (states.input_number.bbiq_grill1_temperature.state | int) - (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% if value > upper_limit %}
+          HIGH grill temperature!
+          {% endif %}
+          {% if value < lower_limit %}
+          LOW grill temperature!
+          {% else %}
+          WARN Grill temperature!
+          {% endif %}
+        message: >
+          {% set upper_limit = (states.input_number.bbiq_grill1_temperature.state | int) + (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% set lower_limit = (states.input_number.bbiq_grill1_temperature.state | int) - (states.input_number.bbiq_grill1_tolerance.state | int) %}
+          {% set unit = state_attr('input_number.bbiq_grill1_temperature', 'unit_of_measurement') %}
+          {{ states.sensor.bbiq_home_sensor_temperature1.state_with_unit }} outside of
+          [{{ upper_limit | string}}{{ unit }}, {{ lower_limit |string }}{{ unit }}].
+
+

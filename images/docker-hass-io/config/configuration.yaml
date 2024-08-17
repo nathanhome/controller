@@ -37,12 +37,48 @@ frontend:
         dark:
           accent-color: "#6a0a00"
 
+# own fields
+input_number:
+  bbiq_grill1_temperature:
+    name: BBiQ Ziel°C Grill
+    unit_of_measurement: "°C"
+    initial: 160
+    min: 100
+    max: 300
+    step: 5
+    mode: slider
+    icon: mdi:thermometer-lines
+  bbiq_grill1_tolerance:
+    name: BBiQ +/-°C Grill
+    unit_of_measurement: "°C"
+    initial: 10
+    min: 0
+    max: 20
+    step: 1
+    mode: box
+    icon: mdi:delta
+
+input_boolean:
+  bbiq_grill1_surveillance:
+    name: BBiQ Grill überwachen
+    icon: mdi:thermometer-alert
+  bbiq_meat1_surveillance:
+    name: BBiQ Fleisch1 überwachen
+    icon: mdi:thermometer-alert
+  bbiq_meat2_surveillance:
+    name: BBiQ Fleisch2 überwachen
+    icon: mdi:thermometer-alert
+  bbiq_meat3_surveillance:
+    name: BBiQ Fleisch3 überwachen
+    icon: mdi:thermometer-alert
+
 # groups
 binary_sensor groups: !include site/binary_groups.yaml
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 automation smokesensors: !include site/auto_smokesensors.yaml
 automation tablets: !include site/auto_tablets.yaml
+automation bbiq: !include site/auto_bbiq.yaml
 #script: !include site/scripts.yaml
 #scene: !include site/scenes.yaml
 
@@ -52,8 +88,6 @@ mobile_app:
 bluetooth:
 input_datetime:
 input_select:
-input_number:
-input_boolean:
 input_button:
 input_text:
 timer:
