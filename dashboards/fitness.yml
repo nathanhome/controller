@@ -1,0 +1,7 @@
+views:
+  - title: Fitnessraum
+    path: fitnessraum
+    icon: mdi:weight-lifter
+    cards:
+      - type: light
+        entity: light.led_panel

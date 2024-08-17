@@ -1,0 +1,39 @@
+views:
+  - title: Batterien
+    path: batterien
+    icon: mdi:battery-heart-variant
+    type: sidebar
+    badges: []
+    cards:
+      - type: entity-filter
+        entities:
+          - binary_sensor.fenstersensor_wcgast_contact
+        conditions:
+          - condition: state
+            state: 'on'
+        name: '!!! Offen !!!'
+        show_empty: false
+        show_header_toggle: false
+      - type: tile
+        entity: sensor.tablet1_batterie
+        tap_action:
+          action: call-service
+          service: ''
+          target: {}
+        state_content:
+          - state
+          - last-changed
+      - type: tile
+        tap_action:
+          action: call-service
+          service: ''
+          target: {}
+        state_content:
+          - state
+          - last-changed
+        entity: sensor.fenstersensor_wcgast_battery
+      - type: tile
+        entity: sensor.haustuer_hausschloss_battery_level
+        state_content:
+          - state
+          - last-changed

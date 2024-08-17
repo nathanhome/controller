@@ -1,0 +1,34 @@
+views:
+  - title: Home
+    icon: mdi:home
+    badges: []
+    cards:
+      - show_current: true
+        show_forecast: false
+        type: weather-forecast
+        entity: weather.forecast_home
+        forecast_type: hourly
+      - type: horizontal-stack
+        cards:
+          - show_name: true
+            show_icon: true
+            type: button
+            tap_action:
+              action: toggle
+            entity: lock.haustuer_hausschloss_lock
+            name: Haustür
+            hold_action:
+              action: none
+          - show_name: true
+            show_icon: true
+            show_state: true
+            type: glance
+            entities:
+              - entity: sensor.wohnzimmer_rauchwohnen_temperature_air
+              - entity: sensor.julinzimmer_rauchjulian_temperature_air
+              - entity: sensor.flur_rauchflur_temperature_air
+              - entity: sensor.schlafzimmer_rauchschlafen_temperature_air
+            columns: 2
+            state_color: true
+            title: Temperaturen
+  title: Rederlechner Zuhause

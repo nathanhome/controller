@@ -1,0 +1,133 @@
+views:
+  - title: Grill
+    path: grill
+    icon: mdi:grill
+    cards:
+      - square: false
+        type: grid
+        cards:
+          - type: tile
+            entity: sensor.bbiq_home_sensor_bbiq_battery
+            show_entity_picture: false
+            name: Akku
+          - type: tile
+            entity: sensor.bbiq_home_sensor_wifi_signal
+            show_entity_picture: false
+            hide_state: true
+            color: black
+            name: Wifi Signal
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature1
+                state_not: unavailable
+            card:
+              type: gauge
+              entity: sensor.bbiq_home_sensor_temperature1
+              min: 0
+              max: 300
+              severity:
+                green: 0
+                yellow: 200
+                red: 100
+              name: Grilltemperatur
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature1
+                state: unavailable
+            card:
+              type: markdown
+              content: _Bitte einstecken_
+              title: Kein Grillsensor
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature2
+                state_not: unavailable
+            card:
+              type: gauge
+              entity: sensor.bbiq_home_sensor_temperature2
+              min: 0
+              max: 300
+              severity:
+                green: 0
+                yellow: 200
+                red: 100
+              name: Gargrad 1
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature2
+                state: unavailable
+            card:
+              type: markdown
+              content: _Bitte einstecken_
+              title: Kein Fleisch- sensor1
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature3
+                state_not: unavailable
+            card:
+              type: gauge
+              entity: sensor.bbiq_home_sensor_temperature3
+              min: 0
+              max: 300
+              severity:
+                green: 0
+                yellow: 200
+                red: 100
+              name: Gargrad 2
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature3
+                state: unavailable
+            card:
+              type: markdown
+              content: _Bitte einstecken_
+              title: Kein Fleisch- sensor2
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature4
+                state_not: unavailable
+            card:
+              type: gauge
+              entity: sensor.bbiq_home_sensor_temperature4
+              min: 0
+              max: 300
+              severity:
+                green: 0
+                yellow: 200
+                red: 100
+              name: Gargrad 3
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.bbiq_home_sensor_temperature4
+                state: unavailable
+            card:
+              type: markdown
+              content: _Bitte einstecken_
+              title: Kein Fleisch- sensor3
+        columns: 2
+      - type: history-graph
+        entities:
+          - entity: sensor.bbiq_home_sensor_temperature1
+        title: BBiQ Grillkontrolle
+        hours_to_show: 1
+        max_y_axis: 300
+        min_y_axis: 80
+      - type: history-graph
+        entities:
+          - entity: sensor.bbiq_home_sensor_temperature2
+          - entity: sensor.bbiq_home_sensor_temperature3
+          - entity: sensor.bbiq_home_sensor_temperature4
+        hours_to_show: 1
+        title: BBiQ Fleischkontrolle
+        min_y_axis: 50
+        max_y_axis: 80
+        logarithmic_scale: false
+        fit_y_data: true
