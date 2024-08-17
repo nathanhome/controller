@@ -166,6 +166,8 @@ services:
         - zwgate_mqtt_key
         - zwgate_mqtt_cert
         - zwgate_secrets
+      depends_on:
+        - mqbroker
 
     zigate:
       restart: unless-stopped
@@ -195,6 +197,8 @@ services:
         - zigate_mqtt_cert
         - zigate_mqtt_key
         - zigate_secrets.yaml
+      depends_on:
+        - mqbroker
 
     solarspot:
       profiles:
@@ -233,11 +237,11 @@ services:
 # TODO: Password still in clear text on docker host
 secrets:
     mqbroker_key:
-      file: /home/digital/.nathan/mosquitto/mqbroker-202401.key
+      file: /home/digital/.nathan/mosquitto/mqbroker-202406.key
     mqbroker_cert:
-      file: /home/digital/.nathan/mosquitto/mqbroker-202401.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-202406.pem
     mqbroker_ca:
-      file: /home/digital/.nathan/mosquitto/mqbroker-trust-202401.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-trust-202406.pem
     mqbroker_passwd:
       file: /home/digital/.nathan/mosquitto/mosquitto.passwd
     hass_key:
@@ -245,7 +249,7 @@ secrets:
     hass_cert:
       file: /home/digital/.nathan/common/nathan-202401.pem
     hass_mqtt_trust:
-      file: /home/digital/.nathan/homeassistant/homeassistant-trust-202401.pem
+      file: /home/digital/.nathan/homeassistant/homeassistant-trust-202406.pem
     hass_mqtt_cert:
       file: /home/digital/.nathan/homeassistant/homeassistant-client-202401.pem
     hass_mqtt_key:
@@ -257,7 +261,7 @@ secrets:
     zigate_cert:
       file: /home/digital/.nathan/common/nathan-202401.pem
     zigate_trust:
-      file: /home/digital/.nathan/zigate/zigate-trust-202401.pem
+      file: /home/digital/.nathan/zigate/zigate-trust-202406.pem
     zigate_mqtt_key:
       file: /home/digital/.nathan/zigate/zigate-client-202401.key
     zigate_mqtt_cert:
@@ -269,7 +273,7 @@ secrets:
     zwgate_cert:
       file: /home/digital/.nathan/common/nathan-202401.pem
     zwgate_mqtt_ca:
-      file: /home/digital/.nathan/zwgate/zwgate-trust-202401.pem
+      file: /home/digital/.nathan/zwgate/zwgate-trust-202406.pem
     zwgate_mqtt_key:
       file: /home/digital/.nathan/zwgate/zwgate-client-202401.key
     zwgate_mqtt_cert:

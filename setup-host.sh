@@ -84,4 +84,3 @@ adduser --system --uid 1888 --group --disabled-login --shell /sbin/nologin solar
 usermod --comment "NATHAN solar spotter" solar
 usermod -a -G homeauto,bluetooth solar
 
-

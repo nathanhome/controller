@@ -28,7 +28,7 @@ mqtt:
 # Serial settings
 serial:
   # direct ip connection to gateway (more robust if gatekeeper is temporary down)
-  port: 'tcp://192.168.44.110:8888'
+  port: 'tcp://192.168.44.59:8888'
   #port: 'tcp://zigatekeeper:8888'
   # port: /dev/zigbee   - old socat version
   adapter: ezsp
