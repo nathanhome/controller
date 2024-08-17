@@ -1,0 +1,9 @@
+- name: ALL_DEVICES
+  platform: group
+  services:
+    - service: mobile_app_pixel_8
+    - service: mobile_app_corina_s21
+- name: BBIQ_GRILLERS
+  platform: group
+  services:
+    - service: mobile_app_pixel_8
