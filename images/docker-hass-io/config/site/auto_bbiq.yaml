@@ -4,6 +4,10 @@
 #     - platform: state
 #       entity_id:
 #         - input_boolean.bbiq_grill1_surveillance
+#   condition:
+#     - condition: template
+#       value_template: >
+#         {{ states('sensor.bbiq_home_sensor_temperature1') not in ['unavailable', 'unknown', 'none'] }}
 #   action:
 #     # push notification
 #     - service: notify.BBIQ_GRILLERS
@@ -31,13 +35,21 @@
 #         title: "Grill surveillance {{ states('input_boolean.bbiq_grill1_surveillance') }}"
 #         message: > 
 #           Monitoring for {{ states.input_number.bbiq_grill1_temperature.state }} +/-{{ states.input_number.bbiq_grill1_tolerance.state_with_unit }}
-
 - alias: "Grill temperature warning"
-  id: "bbiq_grill warning"
+  id: "bbiq_grill_warning"
   trigger:
-    - platform: state
-      entity_id:
-        - input_boolean.bbiq_grill1_surveillance
+    - platform: template
+      value_template: >
+        {% set enabled = states.input_boolean.bbiq_grill1_surveillance.state == true %}
+        {% set value = states.sensor.bbiq_home_sensor_temperature1.state | int(default=0) %}
+        {% set upper_limit = (states.input_number.bbiq_grill1_temperature.state | int) + (states.input_number.bbiq_grill1_tolerance.state | int) %}
+        {% set lower_limit = (states.input_number.bbiq_grill1_temperature.state | int) - (states.input_number.bbiq_grill1_tolerance.state | int) %}
+        {{ available and (value > upper_limit or value < lower_limit) }}
+      for:
+        minutes: 1
+  condition:
+    - condition: template
+      value_template: "{{ states('sensor.bbiq_home_sensor_temperature1') not in ['unavailable', 'unknown', 'none'] }}"      
   action:
     # push notification
     - service: notify.BBIQ_GRILLERS
@@ -59,7 +71,7 @@
           {% set lower_limit = (states.input_number.bbiq_grill1_temperature.state | int) - (states.input_number.bbiq_grill1_tolerance.state | int) %}
           {% set unit = state_attr('input_number.bbiq_grill1_temperature', 'unit_of_measurement') %}
           {{ states.sensor.bbiq_home_sensor_temperature1.state_with_unit }} outside of
-           [{{ upper_limit | string }}{{ unit }}, {{ lower_limit | string }}{{ unit }}].
+          [{{ upper_limit | string }}{{ unit }}, {{ lower_limit | string }}{{ unit }}].
         data:
           # iOS
           presentation_options:
