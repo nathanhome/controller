@@ -75,10 +75,16 @@ input_boolean:
 # groups
 binary_sensor groups: !include site/binary_groups.yaml
 
+# templates
+template: !include site/template_sensors.yaml
+
 # Configure a default setup of Home Assistant (frontend, api, etc)
 automation smokesensors: !include site/auto_smokesensors.yaml
 automation tablets: !include site/auto_tablets.yaml
 automation bbiq: !include site/auto_bbiq.yaml
+automation xmas: !include site/auto_xmas.yaml
+#script: !include site/scripts.yaml
+#scene: !include site/scenes.yaml
 #script: !include site/scripts.yaml
 #scene: !include site/scenes.yaml
 

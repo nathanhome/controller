@@ -1,0 +1,7 @@
+# Template Sensors
+- binary_sensor:
+  - name: "Xmas Season"
+    state: >
+      {{ (now().month == 12 and now().day >= 24) or (now().month == 1 and now().day <= 10) }}
+    attributes:
+      friendly_name: "Christmas Season"

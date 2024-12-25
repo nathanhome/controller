@@ -1,0 +1,36 @@
+#
+# This automation only runs during advent or christmas season
+#
+- alias: Enable Xmas tree after Sundown  (Christmas Season)
+  description: Turns on a smart plug after sundown and turns it off after a specified time interval.
+  id: "xmas_tree_on"
+  trigger:
+    - platform: sun
+      event: sunset
+  condition:
+    - condition: state
+      entity_id: binary_sensor.xmas_season
+      state: "on"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: 
+          - switch.stecker3
+  mode: single
+
+- alias: Disable Xmas tree latest 23:00h (Christmas Season)
+  description: Turns it off after a specified time interval.
+  id: "xmas_tree_off"
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  condition:
+    - condition: state
+      entity_id: binary_sensor.xmas_season
+      state: "on"
+  action:
+    - service: switch.turn_off
+      target:
+        entity_id: 
+          - switch.stecker3
+  mode: single
