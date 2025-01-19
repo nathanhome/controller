@@ -237,47 +237,47 @@ services:
 # TODO: Password still in clear text on docker host
 secrets:
     mqbroker_key:
-      file: /home/digital/.nathan/mosquitto/mqbroker-202406.key
+      file: /home/digital/.nathan/mosquitto/mqbroker-202501.key
     mqbroker_cert:
-      file: /home/digital/.nathan/mosquitto/mqbroker-202406.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-202501.pem
     mqbroker_ca:
-      file: /home/digital/.nathan/mosquitto/mqbroker-trust-202406.pem
+      file: /home/digital/.nathan/mosquitto/mqbroker-trust-202501.pem
     mqbroker_passwd:
       file: /home/digital/.nathan/mosquitto/mosquitto.passwd
     hass_key:
-      file: /home/digital/.nathan/common/nathan-202401.key
+      file: /home/digital/.nathan/common/nathan-202501.key
     hass_cert:
-      file: /home/digital/.nathan/common/nathan-202401.pem
+      file: /home/digital/.nathan/common/nathan-202501.pem
     hass_mqtt_trust:
-      file: /home/digital/.nathan/homeassistant/homeassistant-trust-202406.pem
+      file: /home/digital/.nathan/homeassistant/homeassistant-trust-202501.pem
     hass_mqtt_cert:
-      file: /home/digital/.nathan/homeassistant/homeassistant-client-202401.pem
+      file: /home/digital/.nathan/homeassistant/homeassistant-client-202501.pem
     hass_mqtt_key:
-      file: /home/digital/.nathan/homeassistant/homeassistant-client-202401.key
+      file: /home/digital/.nathan/homeassistant/homeassistant-client-202501.key
     hass_secrets:
       file: /home/digital/.nathan/homeassistant/secrets.yaml
     zigate_key:
-      file: /home/digital/.nathan/common/nathan-202401.key
+      file: /home/digital/.nathan/common/nathan-202501.key
     zigate_cert:
-      file: /home/digital/.nathan/common/nathan-202401.pem
+      file: /home/digital/.nathan/common/nathan-202501.pem
     zigate_trust:
-      file: /home/digital/.nathan/zigate/zigate-trust-202406.pem
+      file: /home/digital/.nathan/zigate/zigate-trust-202501.pem
     zigate_mqtt_key:
-      file: /home/digital/.nathan/zigate/zigate-client-202401.key
+      file: /home/digital/.nathan/zigate/zigate-client-202501.key
     zigate_mqtt_cert:
-      file: /home/digital/.nathan/zigate/zigate-client-202401.pem
+      file: /home/digital/.nathan/zigate/zigate-client-202501.pem
     zigate_secrets.yaml:
       file: /home/digital/.nathan/zigate/secrets.yaml
     zwgate_key:
-      file: /home/digital/.nathan/common/nathan-202401.key
+      file: /home/digital/.nathan/common/nathan-202501.key
     zwgate_cert:
-      file: /home/digital/.nathan/common/nathan-202401.pem
+      file: /home/digital/.nathan/common/nathan-202501.pem
     zwgate_mqtt_ca:
-      file: /home/digital/.nathan/zwgate/zwgate-trust-202406.pem
+      file: /home/digital/.nathan/zwgate/zwgate-trust-202501.pem
     zwgate_mqtt_key:
-      file: /home/digital/.nathan/zwgate/zwgate-client-202401.key
+      file: /home/digital/.nathan/zwgate/zwgate-client-202501.key
     zwgate_mqtt_cert:
-      file: /home/digital/.nathan/zwgate/zwgate-client-202401.pem
+      file: /home/digital/.nathan/zwgate/zwgate-client-202501.pem
     zwgate_secrets:
       file: /home/digital/.nathan/zwgate/secrets.txt
     homedb_rootpass:
