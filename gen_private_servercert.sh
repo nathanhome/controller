@@ -48,7 +48,7 @@ done
 
 cn=$(echo "$subject" | sed -n "s/.*[Cc][Nn]=\(.*\)$/\1/p" )
 serverfile=${cert_dir}/${cn}-$(date "+%Y%m")
-servercafile=${ca_dir}/${cn}ca-$(date "+%Y%m")
+servercafile=${ca_dir}/nathanca-$(date "+%Y%m")
 
 if [ -z ${altnames+x} ]; then
     subjectaltdn_addext=""
@@ -57,6 +57,7 @@ else
 fi
 
 echo "+++ New server ca cert: $subject webserver root +++"
+openssl ecparam -name secp384r1 -genkey -out ${serverfile}.key
 openssl req -new -config $SCRIPT_DIR/selfsignedcerts.cnf \
         -subj "$subject" \
         $subjectaltdn_addext \

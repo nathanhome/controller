@@ -15,6 +15,18 @@ mkdir -p /home/digital/.nathan/common
     --alt "DNS:nathan,DNS:nathan.fritz.box,DNS:nathan.rederlechner.home"
 cp /home/digital/.nathan/common/nathan-$(date "+%Y%m").der /home/digital/.nathan/common/nathan-$(date "+%Y%m").cer
 
+# fully kiosk https
+mkdir -p /home/digital/.nathan/home-tablet1
+./gen_private_servercert.sh -u digital -g digital --path /home/digital/.nathan/home-tablet1 \
+    --capath /home/digital/.nathan \
+    --subject "/C=DE/ST=Saarland/L=Sankt Wendel/O=Home/OU=Rederlechner/CN=home-tablet1" \
+    --alt "DNS:home-tablet1,DNS:home-tablet1.fritz.box,DNS:home-tablet1.rederlechner.home"
+openssl pkcs12 -legacy -export \
+    -out /home/digital/.nathan/home-tablet1/fully-remote-admin-ca.p12 \
+    -inkey /home/digital/.nathan/home-tablet1/home-tablet1-$(date "+%Y%m").key \
+    -in /home/digital/.nathan/home-tablet1/home-tablet1-$(date "+%Y%m").pem \
+    -passout pass:fully
+
 # step 2: generate mtls server certificates
 # python is special in the sense that it expects a duplicate of CN in SAN
 # so we do preemptively
@@ -52,25 +64,25 @@ mkdir -p /home/digital/.nathan/bbiq
     /home/digital/.nathan/bbiq/bbiq-client
 ./gen_mtls_trust.sh -u digital -g assistant -f /home/digital/.nathan/homeassistant/homeassistant-trust \
     /home/digital/.nathan/mosquitto/mqbroker \
-    /home/digital/.nathan/homeassistant/homeassistant-client 
+    /home/digital/.nathan/homeassistant/homeassistant-client \
+    /home/digital/.nathan/nathanca
 ./gen_mtls_trust.sh -u digital -g zwgate -f /home/digital/.nathan/zwgate/zwgate-trust \
     /home/digital/.nathan/mosquitto/mqbroker
 ./gen_mtls_trust.sh -u digital -g zigate -f /home/digital/.nathan/zigate/zigate-trust \
     /home/digital/.nathan/mosquitto/mqbroker \
     /home/digital/.nathan/zigate/zigate-client
 
-
-
 # (optional) mTLS for Silvercrest/Lidl/Tuya zigbee gateway
 # this is not effectively used yet, as socat is not a stable solution
 # we need to extend the gateway code with circuit breaker behavior and client cert support <TODO>y
-mkdir -p /home/digital/.nathan/zigatekeeper
-./gen_mtls_servercert.sh -u digital -g zigate --path /home/digital/.nathan/zigatekeeper \
-    --subject "/C=DE/ST=Saarland/L=Sankt Wendel/O=Home/OU=Rederlechner/CN=zigatekeeper" \
-    --alt "DNS:zigatekeeper,DNS:zigatekeeper.fritz.box;DNS:zigatekeeper.rederlechner.home"
+#
+#mkdir -p /home/digital/.nathan/zigatekeeper
+#./gen_mtls_servercert.sh -u digital -g zigate --path /home/digital/.nathan/zigatekeeper \
+#    --subject "/C=DE/ST=Saarland/L=Sankt Wendel/O=Home/OU=Rederlechner/CN=zigatekeeper" \
+#    --alt "DNS:zigatekeeper,DNS:zigatekeeper.fritz.box;DNS:zigatekeeper.rederlechner.home"
 # zigate already has a client certificate for mqtt, though...
-./gen_mtls_clientcert.sh -u digital -g zigate --path /home/digital/.nathan/zigate \
-   --subject "/C=DE/ST=Saarland/L=Sankt Wendel/O=Home/OU=Rederlechner/CN=zigate2keeper" 
+#./gen_mtls_clientcert.sh -u digital -g zigate --path /home/digital/.nathan/zigate \
+#   --subject "/C=DE/ST=Saarland/L=Sankt Wendel/O=Home/OU=Rederlechner/CN=zigate2keeper" 
 #cat /home/digital/.nathan/zigatekeeper/zigatekeeper-client-$(date "+%Y%m").key \
 #   /home/digital/.nathan/zigatekeeper/zigatekeeper-client-$(date "+%Y%m").pem \
 #   > /home/digital/.nathan/zigatekeeper/zigatekeeper-socat-client-$(date "+%Y%m").pem
