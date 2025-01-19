@@ -28,4 +28,53 @@ created automatically.
     - nathan-mqtts.home.pem           # private server key
 ----
 
-== Home Assistant setup
+== Certificate refresh
+
+=== Services
+
+Before refreshing certificates, back up the current certificates and (re)move
+the toplevel config directory under the `digital` user:
+
+1. Execute `refresh-certs.sh`
+
+2. Copy the following files and driectoriesfrom previous setup
++
+----
+~digital/.nathan/homeassistant/secrets.yaml
+~digital/.nathan/zigate/secrets.yaml
+~digital/.nathan/zwgate/secrets.txt
+~digital/.nathan/homedb
+
+touch mosquitto.passwd
+----
+
+3. Copy the nathanca-xxx.cer file to NAS for distribution to the private devices
+
+4. Change the names of the secrets in `docker-compose.yaml` to the names of the newly
+   generated files.
+
+5. Start with `controller/compose.sh up -d` 
+
+=== Clients
+
+.Android
+
+- Send certificate by email
+
+- Save attached certificate to `Downloads` folder
+
+- Go to settings, search for "Certificate"
+
+- Install "CA-Certficiate" from `Downloads` folder
+
+.Fully Kiosk
+
+- Open remote Admin page:
+  http://<device>:2323
+
+- Upload via "manage Files to Downloads"
+
+- Go to settings, search for "Certificate"
+
+- Install "CA-Certficiate" from `Downloads` folder
+
